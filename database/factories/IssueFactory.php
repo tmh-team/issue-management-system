@@ -6,7 +6,6 @@ use App\Models\Issue;
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class IssueFactory extends Factory
 {
