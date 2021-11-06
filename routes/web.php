@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\IssueController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,3 +25,8 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::view('about', 'about')->name('about')->middleware('auth');
+
+Route::middleware('auth')->group(function () {
+    Route::resource('projects', ProjectController::class);
+    Route::resource('projects/{project}/issues', IssueController::class);
+});
