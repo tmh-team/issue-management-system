@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\IssueExport;
 use App\Models\Issue;
+use App\Models\Project;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class IssueController extends Controller
 {
@@ -12,10 +15,11 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
         return view('issues.index', [
-            'issues' => Issue::paginate(),
+            'projectId' => $project->id,
+            'issues' => Issue::with(['developer', 'reviewer'])->paginate(),
         ]);
     }
 
@@ -24,9 +28,13 @@ class IssueController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        return view('issues.create', [
+            'projectId' => $project->id,
+            'statuses' => Issue::getStatuses(),
+            'users' => $project->users,
+        ]);
     }
 
     /**
@@ -35,9 +43,13 @@ class IssueController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $request->merge([
+            'project_id' => $project->id,
+        ]);
+        Issue::create($request->all());
+        return redirect()->route('issues.index', $project->id);
     }
 
     /**
@@ -83,5 +95,10 @@ class IssueController extends Controller
     public function destroy(Issue $issue)
     {
         //
+    }
+
+    public function export()
+    {
+        return Excel::download(new IssueExport, 'issues.xlsx');
     }
 }

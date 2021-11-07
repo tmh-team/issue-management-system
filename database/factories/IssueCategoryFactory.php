@@ -4,7 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class ProjectFactory extends Factory
+class IssueCategoryFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -14,8 +14,7 @@ class ProjectFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->text(10),
-            'github_repo' => 'https://github.com/tmh-team/issue-management-system',
+            //
         ];
     }
 }

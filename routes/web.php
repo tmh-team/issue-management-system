@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,7 @@ Route::view('about', 'about')->name('about')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
+    Route::get('projects/{project}/issues/export', [IssueController::class, 'export'])->name('issues.export');
     Route::resource('projects/{project}/issues', IssueController::class);
+    Route::resource('users', UserController::class);
 });

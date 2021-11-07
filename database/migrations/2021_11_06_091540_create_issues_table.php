@@ -21,8 +21,8 @@ class CreateIssuesTable extends Migration
             $table->integer('status');
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
-            $table->string('title');
-            $table->text('body')->nullable();
+            $table->string('summary');
+            $table->text('detail')->nullable();
             $table->foreignId('developer_id')->constrained('users');
             $table->foreignId('reviewer_id')->constrained('users');
             $table->text('remarks')->nullable();

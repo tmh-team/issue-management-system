@@ -3,7 +3,8 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-6 offset-6 text-end">
-        <a href="#" class="btn btn-primary btn-sm">@lang('Create')</a>
+        <a href="{{ route('issues.create', $projectId) }}" class="btn btn-primary btn-sm">@lang('Create')</a>
+        <a href="{{ route('issues.export', $projectId) }}" class="btn btn-info btn-sm">@lang('Export')</a>
     </div>
 </div>
 
@@ -22,7 +23,10 @@
                     <th scope="col">@lang('PR No.')</th>
                     <th scope="col">@lang('Start Date')</th>
                     <th scope="col">@lang('End Date')</th>
-                    <th scope="col">@lang('Title')</th>
+                    <th scope="col">@lang('Status')</th>
+                    <th scope="col">@lang('Summary')</th>
+                    <th scope="col">@lang('Developer')</th>
+                    <th scope="col">@lang('Reviewer')</th>
                     <th scope="col" style="width: 300px;">@lang('Actions')</th>
                 </tr>
             </thead>
@@ -34,11 +38,14 @@
                     <td>{{ $issue->pr_no }}</td>
                     <td>{{ $issue->start_date?->toFormattedDateString() }}</td>
                     <td>{{ $issue->end_date?->toFormattedDateString() }}</td>
-                    <td>{{ Str::limit($issue->title, 20) }}</td>
+                    <td>{{ $issue->getStatus() }}</td>
+                    <td>{{ Str::limit($issue->summary, 20) }}</td>
+                    <td>{{ $issue->developer->name }}</td>
+                    <td>{{ $issue->reviewer->name }}</td>
                     <td>
                         <div>
                             <a href="#" class="btn btn-info btn-sm">
-                                @lang('Issues')
+                                @lang('View')
                             </a>
                             <a href="#" class="btn btn-success btn-sm">
                                 @lang('Edit')

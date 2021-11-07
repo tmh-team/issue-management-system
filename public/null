@@ -1,0 +1,42 @@
+Issue::STATUS
+array_flip(Issue::STATUS)
+array_reverse(Issue::STATUS)
+Issue::find(1)->getStatus();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+Issue::find(1)->getStatuses();
+User::find(1)
+User::find(1)->projects()
+User::find(1)->projects()->attach(1)
+$project = Project::first();
+$project = Project::first();
+$user = User::first();
+$project = Project::first();
+$user = User::first();
+$user->projects
+$user = User::first();
+dump($user)
+$user = User::first();
+dump($user->project)
+$user = User::first();
+dump($user->projects)
+$user = User::first();
+dump($user->projects->toArray())
+$users = User::factory(3)->create()
+$users = User::factory(3)->create()
+  $users->pluck('id')
+$users = User::factory(3)->create()
+  $users->pluck('id');
+$users = User::factory(3)->create();
+  $users->pluck('id');
+array_rand(Issue::STATUS)
+array_rand(Issue::STATUS)
+array_rand(Issue::STATUS)
+$k = array_rand(Issue::STATUS);
+$v = $array[$k];
+$k = array_rand(Issue::STATUS);
+$v = Issue::STATUS[$k];

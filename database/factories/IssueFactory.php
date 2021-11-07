@@ -16,15 +16,17 @@ class IssueFactory extends Factory
      */
     public function definition()
     {
+        $key = array_rand(Issue::STATUS);
+
         return [
             'project_id' => Project::inRandomOrder()->first(),
-            'issue_no' => '#' . rand(0000, 9999),
-            'pr_no' => '#' . rand(0000, 9999),
-            'status' => Issue::STATUS['in_progress'],
-            'start_date' => now(),
-            'end_date' => null,
-            'title' => $this->faker->text(100),
-            'body' => $this->faker->text(),
+            'issue_no' => rand(1, 0) ? '#' . rand(1000, 9999) : null,
+            'pr_no' => rand(1, 0) ? '#' . rand(1000, 9999) : null,
+            'status' => Issue::STATUS[$key],
+            'start_date' => now()->subDays(rand(1, 3)),
+            'end_date' => rand(0, 1) ? now() : null,
+            'summary' => $this->faker->text(100),
+            'detail' => $this->faker->text(),
             'developer_id' => User::inRandomOrder()->first(),
             'reviewer_id' => User::inRandomOrder()->first(),
         ];

@@ -9,7 +9,7 @@
 
 <div class="card mb-4">
     <div class="card-header">
-        {{ __('Project List') }}
+        {{ __('user List') }}
     </div>
     <div class="card-body">
 
@@ -19,27 +19,22 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('Name')</th>
+                    <th scope="col">@lang('Email')</th>
                     <th scope="col" style="width: 300px;">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($projects as $project)
+                @foreach ($users as $user)
                 <tr>
-                    <th scope="row">{{ $project->id }}</th>
-                    <td>{{ $project->name }}</td>
+                    <th scope="row">{{ $user->id }}</th>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
                     <td>
                         <div>
-                            <a href="{{ route('issues.index', $project->id) }}" class="btn btn-info btn-sm">
-                                @lang('Issues')
-                            </a>
-                            <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
-                                class="btn btn-warning btn-sm">
-                                @lang('Users')
-                            </a>
-                            <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-success btn-sm">
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success btn-sm">
                                 @lang('Edit')
                             </a>
-                            <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-danger btn-sm">
+                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-danger btn-sm">
                                 @lang('Delete')
                             </a>
                         </div>

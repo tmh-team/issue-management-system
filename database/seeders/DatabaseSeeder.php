@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Issue;
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,8 +16,13 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(10)->create();
-        \App\Models\Project::factory(10)->create();
-        \App\Models\Issue::factory(10)->create();
+        User::factory()->create([
+            'email' => 'admin@test.com',
+        ]);
+        Project::factory(10)
+            ->has(User::factory(3))
+            ->create();
+        Issue::factory(10)->create();
+
     }
 }

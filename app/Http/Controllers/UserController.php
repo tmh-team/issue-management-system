@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -13,7 +14,19 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('users.index');
+        // $users = request('project_id') ?
+        // Project::find(request('project_id'))->users()->paginate() :
+        // User::paginate();
+
+        $users = User::when(request('project_id'), function ($query) {
+            $query->whereHas('projects', function ($query) {
+                $query->where('projects.id', request('project_id'));
+            });
+        })->paginate();
+
+        return view('users.index', [
+            'users' => $users,
+        ]);
     }
 
     /**
