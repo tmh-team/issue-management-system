@@ -22,7 +22,7 @@ jobs:
                   fetch-depth: 1
 
             - name: Install composer dependencies
-              working-directory: ./app
+              working-directory: ./src
               run: |
                   composer install --no-scripts
 
