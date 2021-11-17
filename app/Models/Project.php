@@ -11,6 +11,13 @@ class Project extends Model
     use HasFactory;
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var string[]
+     */
+    protected $fillable = ['name', 'summary'];
+
+    /**
      * The users that belong to the Project
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

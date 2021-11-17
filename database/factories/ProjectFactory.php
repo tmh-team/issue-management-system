@@ -15,7 +15,7 @@ class ProjectFactory extends Factory
     {
         return [
             'name' => $this->faker->text(10),
-            'github_repo' => 'https://github.com/tmh-team/issue-management-system',
+            'summary' => $this->faker->text(20),
         ];
     }
 }
