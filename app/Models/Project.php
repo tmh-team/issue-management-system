@@ -26,4 +26,12 @@ class Project extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * The status that has many to the Project
+     */
+    public function statuses()
+    {
+        return $this->hasMany(TaskStatus::class);
+    }
 }

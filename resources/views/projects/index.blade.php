@@ -3,7 +3,7 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-6 offset-6 text-end">
-        <a href="#" class="btn btn-primary btn-sm">@lang('Create')</a>
+        <a href="{{ route('projects.create') }}" class="btn btn-primary btn-sm">@lang('Create')</a>
     </div>
 </div>
 
@@ -29,25 +29,33 @@
                     <td>{{ $project->name }}</td>
                     <td>
                         <div>
-                            <a href="{{ route('issues.index', $project->id) }}" class="btn btn-info btn-sm">
+                            <form action="{{ route('projects.destroy', $project->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+
+                                <a href="{{ route('issues.index', $project->id) }}" class="btn btn-info btn-sm">
                                 @lang('Issues')
-                            </a>
-                            <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
-                                class="btn btn-warning btn-sm">
-                                @lang('Users')
-                            </a>
-                            <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-success btn-sm">
-                                @lang('Edit')
-                            </a>
-                            <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-danger btn-sm">
-                                @lang('Delete')
-                            </a>
+                                </a>
+                                <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
+                                    class="btn btn-warning btn-sm">
+                                    @lang('Members')
+                                </a>
+                                <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-success btn-sm">
+                                    @lang('Edit')
+                                </a>
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    @lang('Delete')
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {{ $projects->links() }}
+        </div>
     </div>
 </div>
 @endsection

@@ -31,18 +31,26 @@
                     <td>{{ $user->email }}</td>
                     <td>
                         <div>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success btn-sm">
-                                @lang('Edit')
-                            </a>
-                            <a href="{{ route('users.edit', $user->id) }}" class="btn btn-danger btn-sm">
-                                @lang('Delete')
-                            </a>
+                            <form action="{{ route('users.destroy', $user->id) }}" method="post">
+                                @csrf
+                                @method('DELETE')
+                                
+                                <a href="{{ route('users.edit', $user->id) }}" class="btn btn-success btn-sm">
+                                    @lang('Edit')
+                                </a>
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    @lang('Delete')
+                                </button>
+                            </form>
                         </div>
                     </td>
                 </tr>
                 @endforeach
             </tbody>
         </table>
+        <div>
+            {{ $users->links() }}
+        </div>
     </div>
 </div>
 @endsection

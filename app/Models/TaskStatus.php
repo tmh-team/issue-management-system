@@ -15,4 +15,12 @@ class TaskStatus extends Model
      * @var string[]
      */
     protected $fillable = ['project_id', 'status'];
+    
+    /**
+     * The project that belongs to the task status
+     */
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 }
