@@ -15,7 +15,7 @@ class CreateTaskStatusesTable extends Migration
     {
         Schema::create('task_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('project_id')->constrained();
+            $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->string('status');
             $table->timestamps();
         });

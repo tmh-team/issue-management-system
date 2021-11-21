@@ -22,7 +22,7 @@ class UserController extends Controller
             $query->whereHas('projects', function ($query) {
                 $query->where('projects.id', request('project_id'));
             });
-        })->paginate();
+        })->paginate(15);
 
         return view('users.index', [
             'users' => $users,
@@ -69,7 +69,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('users.edit', [
+            'user' => User::findOrFail($id)
+        ]);
     }
 
     /**
@@ -81,7 +83,10 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -92,6 +97,9 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return back();
     }
 }
