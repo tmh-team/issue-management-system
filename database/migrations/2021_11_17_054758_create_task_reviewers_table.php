@@ -15,8 +15,8 @@ class CreateTaskReviewersTable extends Migration
     {
         Schema::create('task_reviewers', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('task_id')->constrained();
-            $table->foreignId('user_id')->constrained();
+            $table->foreignId('task_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();
         });
     }
