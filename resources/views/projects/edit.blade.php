@@ -18,7 +18,10 @@
                 <label class="form-label">@lang('Project Users')</label>
                 <select class="form-select" name="user_ids[]" multiple>
                     @foreach ($users as $user)
-                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    <option value="{{ $user->id }}"
+                        @if(in_array($user->id, $selectedUsers)) selected @endif>
+                        {{ $user->name }}
+                    </option>
                     @endforeach
                 </select>
             </div>
