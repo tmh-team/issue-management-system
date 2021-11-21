@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
+    // TODO: move to model
     private $statuses = [
         'meeting',
         'investigate',
