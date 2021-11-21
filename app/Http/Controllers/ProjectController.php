@@ -30,7 +30,7 @@ class ProjectController extends Controller
     public function index()
     {
         return view('projects.index', [
-            'projects' => Project::paginate(15),
+            'projects' => Project::orderBy('id', 'desc')->paginate(15),
         ]);
     }
 
@@ -42,7 +42,7 @@ class ProjectController extends Controller
     public function create()
     {
         return view('projects.create', [
-            'users' => User::all()
+            'users' => User::all(),
         ]);
     }
 
@@ -88,7 +88,8 @@ class ProjectController extends Controller
     {
         return view('projects.edit', [
             'project' => $project,
-            'users' => User::all()
+            'users' => User::all(),
+            'selectedUsers' => $project->users->pluck('id')->toArray(),
         ]);
     }
 
