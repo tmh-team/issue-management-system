@@ -17,3 +17,4 @@ public/css/app.css
 public/js/app.js
 storage/clockwork/.gitignore
 storage/framework/laravel-excel/*
+.DS_Store
