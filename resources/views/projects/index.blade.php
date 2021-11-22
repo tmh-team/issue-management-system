@@ -33,8 +33,8 @@
                                 @csrf
                                 @method('DELETE')
 
-                                <a href="{{ route('issues.index', $project->id) }}" class="btn btn-info btn-sm">
-                                @lang('Issues')
+                                <a href="{{ route('tasks.index', $project->id) }}" class="btn btn-info btn-sm">
+                                @lang('Tasks')
                                 </a>
                                 <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
                                     class="btn btn-warning btn-sm">

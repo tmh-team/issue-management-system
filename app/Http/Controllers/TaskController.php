@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
+use App\Models\TaskStatus;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -12,9 +14,12 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
-        //
+        return view('tasks.index', [
+            'projectId' => $project->id,
+            'tasks' => Task::orderBy('id', 'desc')->paginate(15),
+        ]);
     }
 
     /**
@@ -22,9 +27,13 @@ class TaskController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        return view('tasks.create', [
+            'projectId' => $project->id,
+            'statuses' => TaskStatus::getStatuses(),
+            'users' => $project->users,
+        ]);
     }
 
     /**
@@ -33,9 +42,13 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project)
     {
-        //
+        $request->merge([
+            'project_id' => $project->id,
+        ]);
+        Task::create($request->all());
+        return redirect()->route('tasks.index', $project->id);
     }
 
     /**
