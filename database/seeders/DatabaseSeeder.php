@@ -22,20 +22,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = [
-            'meeting',
-            'investigate',
-            'develop',
-            'testing',
-            'review',
-            'review_fix',
-            'bug fix',
-            'customer_feedback_fix',
-            'finished',
-            'rejected',
-            'pending',
-        ];
-
         $categories = [
             'feature',
             'bug',
@@ -54,7 +40,7 @@ class DatabaseSeeder extends Seeder
 
         foreach ($projects as $project) {
             // create task statuses
-            foreach ($statuses as $status) {
+            foreach (TaskStatus::getStatuses() as $status) {
                 TaskStatus::create([
                     'project_id' => $project->id,
                     'status' => $status,

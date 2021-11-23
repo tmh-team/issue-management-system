@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Task;
 use App\Models\TaskReviewer;
 use Illuminate\Http\Request;
 
@@ -10,32 +12,55 @@ class TaskReviewerController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project, Task $task)
     {
-        //
+        return view('reviewers.index', [
+            'projectId' => $project->id,
+            'taskId' => $task->id,
+            'reviewers' => TaskReviewer::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project, Task $task)
     {
-        //
+        return view('reviewers.create', [
+            'projectId' => $project->id,
+            'taskId' => $task->id,
+            'users' => $project->users,
+            'reviewers' => TaskReviewer::where('task_id', $task->id)->pluck('user_id')->toArray(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project, Task $task)
     {
-        //
+        TaskReviewer::where('task_id', $task->id)->delete();
+        foreach ($request['reviewer_ids'] as $id) {
+            TaskReviewer::create([
+                'task_id' => $task->id,
+                'user_id' => $id,
+            ]);
+        }
+
+        return redirect()->route('reviewers.index', [$project->id, $task->id]);
     }
 
     /**
@@ -75,11 +100,15 @@ class TaskReviewerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TaskReviewer  $taskReviewer
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
+     * @param  \App\Models\TaskDeveloper  $reviewer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskReviewer $taskReviewer)
+    public function destroy(Project $project, Task $task, TaskReviewer $reviewer)
     {
-        //
+        TaskReviewer::findOrFail($reviewer->id)->delete();
+
+        return redirect()->route('reviewers.index', [$project->id, $task->id]);
     }
 }

@@ -48,9 +48,8 @@
                                 @csrf
                                 @method('DELETE')
                                 
-                                <a href="#" class="btn btn-info btn-sm">@lang('Developers')</a>
-                                <a href="#" class="btn btn-warning btn-sm">@lang('Reviewers')</a>
-                                <a href="#" class="btn btn-dark btn-sm">@lang('Categories')</a>
+                                <a href="{{ route('developers.index', [$projectId, $task->id]) }}" class="btn btn-info btn-sm">@lang('Developers')</a>
+                                <a href="{{ route('reviewers.index', [$projectId, $task->id]) }}" class="btn btn-warning btn-sm">@lang('Reviewers')</a>
                                 <a href="{{ route('tasks.edit', [$projectId, $task->id]) }}" class="btn btn-success btn-sm">
                                     @lang('Edit')
                                 </a>

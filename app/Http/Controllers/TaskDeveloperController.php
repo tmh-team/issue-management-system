@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\Task;
 use App\Models\TaskDeveloper;
 use Illuminate\Http\Request;
 
@@ -10,32 +12,55 @@ class TaskDeveloperController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project, Task $task)
     {
-        //
+        return view('developers.index', [
+            'projectId' => $project->id,
+            'taskId' => $task->id,
+            'developers' => TaskDeveloper::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
+        ]);
     }
 
     /**
      * Show the form for creating a new resource.
      *
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task $task
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project, Task $task)
     {
-        //
+        return view('developers.create', [
+            'projectId' => $project->id,
+            'taskId' => $task->id,
+            'users' => $project->users,
+            'developers' => TaskDeveloper::where('task_id', $task->id)->pluck('user_id')->toArray(),
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Project $project, Task $task)
     {
-        //
+        TaskDeveloper::where('task_id', $task->id)->delete();
+        foreach ($request['developer_ids'] as $id) {
+            TaskDeveloper::create([
+                'task_id' => $task->id,
+                'user_id' => $id,
+            ]);
+        }
+
+        return redirect()->route('developers.index', [$project->id, $task->id]);
     }
 
     /**
@@ -75,11 +100,15 @@ class TaskDeveloperController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TaskDeveloper  $taskDeveloper
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\Task  $task
+     * @param  \App\Models\TaskDeveloper  $developer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskDeveloper $taskDeveloper)
+    public function destroy(Project $project, Task $task, TaskDeveloper $developer)
     {
-        //
+        TaskDeveloper::findOrFail($developer->id)->delete();
+
+        return redirect()->route('developers.index', [$project->id, $task->id]);
     }
 }

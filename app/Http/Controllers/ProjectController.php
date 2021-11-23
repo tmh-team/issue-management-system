@@ -9,20 +9,6 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    // TODO: move to model
-    private $statuses = [
-        'meeting',
-        'investigate',
-        'develop',
-        'testing',
-        'review',
-        'review_fix',
-        'bug fix',
-        'customer_feedback_fix',
-        'finished',
-        'rejected',
-        'pending',
-    ];
     /**
      * Display a listing of the resource.
      *
@@ -59,7 +45,7 @@ class ProjectController extends Controller
 
         $project->users()->attach($request->user_ids);
 
-        foreach ($this->statuses as $status) {
+        foreach (TaskStatus::getStatuses() as $status) {
             TaskStatus::create([
                 'project_id' => $project->id,
                 'status' => $status,
