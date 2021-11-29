@@ -15,4 +15,27 @@ class TaskCategory extends Model
      * @var string[]
      */
     protected $fillable = ['project_id', 'name'];
+
+    public const NAMES = [
+        'Feature',
+        'Bug',
+        'Feedback',
+    ];
+
+    public static function getDefaultCategories(Project $project): array
+    {
+        $names = [];
+        $now = now()->toDateTimeLocalString();
+
+        foreach (self::NAMES as $name) {
+            $names[] = [
+                'project_id' => $project->id,
+                'name' => $name,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        return $names;
+    }
 }

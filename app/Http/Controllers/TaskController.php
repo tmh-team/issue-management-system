@@ -6,8 +6,7 @@ use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Project;
 use App\Models\Task;
-use App\Models\TaskDeveloper;
-use App\Models\TaskReviewer;
+use App\Models\TaskCategory;
 use App\Models\TaskStatus;
 
 class TaskController extends Controller
@@ -22,7 +21,11 @@ class TaskController extends Controller
     {
         return view('tasks.index', [
             'projectId' => $project->id,
-            'tasks' => Task::with('task_status')->where('project_id', $project->id)->orderBy('id', 'desc')->paginate(15),
+            'tasks' => Task::with('status', 'category')
+                ->filter()
+                ->where('project_id', $project->id)
+                ->orderBy('id', 'desc')
+                ->paginate(15),
         ]);
     }
 
@@ -36,8 +39,12 @@ class TaskController extends Controller
     {
         return view('tasks.create', [
             'projectId' => $project->id,
+            'task' => new Task(),
             'statuses' => TaskStatus::where('project_id', $project->id)->get(),
+            'categories' => TaskCategory::where('project_id', $project->id)->get(),
             'users' => $project->users,
+            'developers' => collect(),
+            'reviewers' => collect(),
         ]);
     }
 
@@ -55,23 +62,8 @@ class TaskController extends Controller
         ]);
         $task = Task::create($request->all());
 
-        if ($request->developer_ids) {
-            foreach ($request->developer_ids as $id) {
-                TaskDeveloper::create([
-                    'task_id' => $task->id,
-                    'user_id' => $id,
-                ]);
-            }
-        }
-
-        if ($request->reviewer_ids) {
-            foreach ($request->reviewer_ids as $id) {
-                TaskReviewer::create([
-                    'task_id' => $task->id,
-                    'user_id' => $id,
-                ]);
-            }
-        }
+        $task->developers()->attach($request->developer_ids);
+        $task->reviewers()->attach($request->reviewer_ids);
 
         return redirect()
             ->route('tasks.index', $project->id)
@@ -87,9 +79,9 @@ class TaskController extends Controller
      */
     public function show(Project $project, Task $task)
     {
-        return view('tasks.detail', [
+        return view('tasks.show', [
             'projectId' => $project->id,
-            'taskDetail' => $task->detail,
+            'task' => $task,
         ]);
     }
 
@@ -106,9 +98,10 @@ class TaskController extends Controller
             'projectId' => $project->id,
             'task' => $task,
             'statuses' => TaskStatus::where('project_id', $project->id)->get(),
+            'categories' => TaskCategory::where('project_id', $project->id)->get(),
             'users' => $project->users,
-            'developers' => $task->developers->pluck('user_id')->toArray(),
-            'reviewers' => $task->reviewers->pluck('user_id')->toArray(),
+            'developers' => $task->developers->pluck('id'),
+            'reviewers' => $task->reviewers->pluck('id'),
         ]);
     }
 
@@ -127,25 +120,8 @@ class TaskController extends Controller
         ]);
         $task->update($request->all());
 
-        if ($request->developer_ids) {
-            TaskDeveloper::where('task_id', $task->id)->delete();
-            foreach ($request->developer_ids as $id) {
-                TaskDeveloper::create([
-                    'task_id' => $task->id,
-                    'user_id' => $id,
-                ]);
-            }
-        }
-
-        if ($request->reviewer_ids) {
-            TaskReviewer::where('task_id', $task->id)->delete();
-            foreach ($request->reviewer_ids as $id) {
-                TaskReviewer::create([
-                    'task_id' => $task->id,
-                    'user_id' => $id,
-                ]);
-            }
-        }
+        $task->developers()->sync($request->developer_ids);
+        $task->reviewers()->sync($request->reviewer_ids);
 
         return redirect()
             ->route('tasks.index', $project->id)
