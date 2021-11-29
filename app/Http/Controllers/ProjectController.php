@@ -109,20 +109,4 @@ class ProjectController extends Controller
         return back()->with(['success' => 'A project was deleted successfully.']);
     }
 
-    protected function getDefaultStatuses(Project $project): array
-    {
-        $statuses = [];
-        $now = now()->toDateTimeLocalString();
-
-        foreach (Project::STATUSES as $status) {
-            $statuses[] = [
-                'project_id' => $project->id,
-                'status' => $status,
-                'created_at' => $now,
-                'updated_at' => $now,
-            ];
-        }
-
-        return $statuses;
-    }
 }

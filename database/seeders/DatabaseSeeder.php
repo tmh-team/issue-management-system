@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Issue;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskCategory;
@@ -22,37 +21,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = Project::STATUSES;
-
-        $categories = [
-            'feature',
-            'bug',
-            'customer',
-            'feedback',
-        ];
-
         User::factory()->create([
             'email' => 'admin@test.com',
         ]);
+
         $projects = Project::factory(10)
             ->has(User::factory(5))
             ->create();
 
-        Issue::factory(10)->create();
-
         foreach ($projects as $project) {
             // create task statuses
-            foreach (TaskStatus::getStatuses() as $status) {
-                TaskStatus::create([
-                    'project_id' => $project->id,
-                    'status' => $status,
-                ]);
-            }
+            TaskStatus::insert(TaskStatus::getDefaultStatuses($project));
+            // create categories
+            TaskCategory::insert(TaskCategory::getDefaultCategories($project));
 
             // create tasks
+            // $tasks = Task::factory()->create();
             $tasks = Task::factory(10)->create([
                 'project_id' => $project->id,
                 'task_status_id' => TaskStatus::inRandomOrder()->where('project_id', $project->id)->first(),
+                'task_category_id' => TaskCategory::inRandomOrder()->where('project_id', $project->id)->first(),
             ]);
 
             // create task developers and reviewers
@@ -72,14 +60,6 @@ class DatabaseSeeder extends Seeder
                         ->inRandomOrder()
                         ->first()
                         ->id,
-                ]);
-            }
-
-            // create categories
-            foreach ($categories as $category) {
-                TaskCategory::create([
-                    'project_id' => $project->id,
-                    'name' => $category,
                 ]);
             }
         }

@@ -24,13 +24,14 @@ class TaskStoreRequest extends FormRequest
     public function rules()
     {
         return [
+            'summary' => 'required',
+            // 'detail' => 'nullable',
             'issue_no' => 'nullable|numeric',
             'pull_no' => 'nullable|numeric',
-            'summary' => 'nullable',
-            'detail' => 'nullable',
-            'task_status_id' => 'required|numeric',
-            'start_date' => 'nullable|date',
+            'start_date' => 'required|date',
             'end_date' => 'nullable|date',
+            'task_status_id' => 'required|numeric',
+            'task_category_id' => 'required|numeric',
             'remarks' => 'nullable',
             'developer_ids' => 'nullable',
             'reviewer_ids' => 'nullable',

@@ -21,9 +21,11 @@ class CreateTasksTable extends Migration
             $table->text('summary')->nullable();
             $table->text('detail')->nullable();
             $table->foreignId('task_status_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('task_category_id')->constrained()->cascadeOnDelete();
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->text('remarks')->nullable();
+            $table->timestamp('closed')->nullable();
             $table->timestamps();
         });
     }

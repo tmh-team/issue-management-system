@@ -40,6 +40,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects/{project}/categories', TaskCategoryController::class);
     Route::resource('projects/{project}/tasks/{task}/developers', TaskDeveloperController::class);
     Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
-    Route::resource('projects/{project}/issues', IssueController::class);
     Route::resource('users', UserController::class);
 });
