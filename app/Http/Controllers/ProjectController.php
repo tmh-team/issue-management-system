@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
 use App\Models\TaskStatus;
 use App\Models\User;
@@ -39,7 +41,7 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProjectStoreRequest $request)
     {
         $project = Project::create($request->all());
 
@@ -51,7 +53,7 @@ class ProjectController extends Controller
                 'status' => $status,
             ]);
         }
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with(['success' => 'A project was created successfully.']);
     }
 
     /**
@@ -62,7 +64,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return view('projects.detail', [
+            'project' => $project
+        ]);
     }
 
     /**
@@ -87,12 +91,12 @@ class ProjectController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectUpdateRequest $request, Project $project)
     {
         $project->update($request->all());
         $project->users()->attach($request->user_ids);
 
-        return redirect()->route('projects.index');
+        return redirect()->route('projects.index')->with(['success' => 'A project was updated successfully.']);
     }
 
     /**
@@ -104,6 +108,6 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
-        return back();
+        return back()->with(['success' => 'A project was deleted successfully.']);
     }
 }

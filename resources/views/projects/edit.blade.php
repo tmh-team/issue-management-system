@@ -13,6 +13,9 @@
             <div class="mb-3">
                 <label class="form-label">@lang('Project Name')</label>
                 <input type="text" name="name" class="form-control" value="{{ $project->name }}">
+                @error('name')
+                    <p class="text-danger text-xs">{{ $message }}</p>  
+                @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label">@lang('Project Users')</label>
@@ -28,6 +31,9 @@
             <div class="mb-3">
                 <label class="form-label">@lang('Summary')</label>
                 <textarea name="summary" class="form-control" rows="3">{{ $project->summary }}</textarea>
+                @error('summary')
+                    <p class="text-danger text-xs">{{ $message }}</p>  
+                @enderror
             </div>
             <div class="d-flex justify-content-between">
                 <button type="submit" class="btn btn-primary">@lang('Update')</button>
