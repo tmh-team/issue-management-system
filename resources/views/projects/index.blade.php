@@ -25,7 +25,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('Name')</th>
-                    <th scope="col" style="width: 400px;">@lang('Actions')</th>
+                    <th scope="col" style="width: 600px;">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -38,6 +38,20 @@
                             <form action="{{ route('projects.destroy', $project->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
+
+                                <a href="{{ route('tasks.index', $project->id) }}" class="btn btn-secondary btn-sm">
+                                    @lang('Tasks')
+                                </a>
+                                <a href="{{ route('statuses.index', $project->id) }}" class="btn btn-warning btn-sm">
+                                    @lang('Task Statuses')
+                                </a>
+                                <a href="{{ route('categories.index', $project->id) }}" class="btn btn-primary btn-sm">
+                                    @lang('Task Categories')
+                                </a>
+                                <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
+                                    class="btn btn-dark btn-sm">
+                                    @lang('Members')
+                                </a>
                                 <a href="{{ route('projects.show', $project->id) }}" class="btn btn-info btn-sm">
                                     @lang('View')
                                 </a>

@@ -35,14 +35,14 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@test.com',
         ]);
         $projects = Project::factory(10)
-            ->has(User::factory(3))
+            ->has(User::factory(5))
             ->create();
 
         Issue::factory(10)->create();
 
         foreach ($projects as $project) {
             // create task statuses
-            foreach ($statuses as $status) {
+            foreach (TaskStatus::getStatuses() as $status) {
                 TaskStatus::create([
                     'project_id' => $project->id,
                     'status' => $status,

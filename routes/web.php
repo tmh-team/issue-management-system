@@ -2,6 +2,11 @@
 
 use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskCategoryController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\TaskDeveloperController;
+use App\Http\Controllers\TaskReviewerController;
+use App\Http\Controllers\TaskStatusController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +35,11 @@ Route::view('about', 'about')->name('about')->middleware('auth');
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
     Route::get('projects/{project}/issues/export', [IssueController::class, 'export'])->name('issues.export');
+    Route::resource('projects/{project}/tasks', TaskController::class);
+    Route::resource('projects/{project}/statuses', TaskStatusController::class);
+    Route::resource('projects/{project}/categories', TaskCategoryController::class);
+    Route::resource('projects/{project}/tasks/{task}/developers', TaskDeveloperController::class);
+    Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
     Route::resource('projects/{project}/issues', IssueController::class);
     Route::resource('users', UserController::class);
 });

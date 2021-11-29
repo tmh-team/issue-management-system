@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskStatusStoreRequest;
+use App\Http\Requests\TaskStatusUpdateRequest;
+use App\Models\Project;
 use App\Models\TaskStatus;
-use Illuminate\Http\Request;
 
 class TaskStatusController extends Controller
 {
@@ -12,9 +14,12 @@ class TaskStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Project $project)
     {
-        //
+        return view('task_statuses.index', [
+            'projectId' => $project->id,
+            'statuses' => TaskStatus::where('project_id', $project->id)->paginate(15),
+        ]);
     }
 
     /**
@@ -22,29 +27,39 @@ class TaskStatusController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Project $project)
     {
-        //
+        return view('task_statuses.create', [
+            'projectId' => $project->id,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaskStatusStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TaskStatusStoreRequest $request, Project $project)
     {
-        //
+        $request->merge([
+            'project_id' => $project->id,
+        ]);
+        TaskStatus::create($request->all());
+
+        return redirect()
+            ->route('statuses.index', $project->id)
+            ->with('success', 'A status has been created.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\TaskStatus  $status
      * @return \Illuminate\Http\Response
      */
-    public function show(TaskStatus $taskStatus)
+    public function show(Project $project, TaskStatus $status)
     {
         //
     }
@@ -52,34 +67,51 @@ class TaskStatusController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\TaskStatus  $status
      * @return \Illuminate\Http\Response
      */
-    public function edit(TaskStatus $taskStatus)
+    public function edit(Project $project, TaskStatus $status)
     {
-        //
+        return view('task_statuses.edit', [
+            'projectId' => $project->id,
+            'status' => $status,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Http\Requests\TaskStatusUpdateRequest  $request
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\TaskStatus  $status
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TaskStatus $taskStatus)
+    public function update(TaskStatusUpdateRequest $request, Project $project, TaskStatus $status)
     {
-        //
+        $request->merge([
+            'project_id' => $project->id,
+        ]);
+        $status->update($request->all());
+
+        return redirect()
+            ->route('statuses.index', $project->id)
+            ->with('success', 'A status has been updated.');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\TaskStatus  $taskStatus
+     * @param  \App\Models\Project  $project
+     * @param  \App\Models\TaskStatus  $status
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TaskStatus $taskStatus)
+    public function destroy(Project $project, TaskStatus $status)
     {
-        //
+        $status->delete();
+
+        return redirect()
+            ->route('statuses.index', $project->id)
+            ->with('success', 'A status has been deleted.');
     }
 }
