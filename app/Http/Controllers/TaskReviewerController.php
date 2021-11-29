@@ -18,7 +18,7 @@ class TaskReviewerController extends Controller
      */
     public function index(Project $project, Task $task)
     {
-        return view('reviewers.index', [
+        return view('task_reviewers.index', [
             'projectId' => $project->id,
             'taskId' => $task->id,
             'reviewers' => TaskReviewer::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
@@ -34,12 +34,7 @@ class TaskReviewerController extends Controller
      */
     public function create(Project $project, Task $task)
     {
-        return view('reviewers.create', [
-            'projectId' => $project->id,
-            'taskId' => $task->id,
-            'users' => $project->users,
-            'reviewers' => TaskReviewer::where('task_id', $task->id)->pluck('user_id')->toArray(),
-        ]);
+        //
     }
 
     /**
@@ -52,15 +47,7 @@ class TaskReviewerController extends Controller
      */
     public function store(Request $request, Project $project, Task $task)
     {
-        TaskReviewer::where('task_id', $task->id)->delete();
-        foreach ($request['reviewer_ids'] as $id) {
-            TaskReviewer::create([
-                'task_id' => $task->id,
-                'user_id' => $id,
-            ]);
-        }
-
-        return redirect()->route('reviewers.index', [$project->id, $task->id]);
+        //
     }
 
     /**

@@ -3,13 +3,13 @@
 @section('content')
 <div class="row mb-4">
     <div class="col-6 offset-6 text-end">
-        <a href="{{ route('developers.create', [$projectId, $taskId]) }}" class="btn btn-primary btn-sm">@lang('Create')</a>
+        <a href="{{ route('tasks.index', $projectId) }}" class="btn btn-outline-secondary">Back</a>
     </div>
 </div>
 
 <div class="card mb-4">
     <div class="card-header">
-        @lang('Developer List')
+        @lang('Reviewer List')
     </div>
     <div class="card-body">
         <table class="table table-striped">
@@ -22,32 +22,35 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($developers as $developer)
+                @forelse ($reviewers as $reviewer)
                 <tr>
-                    <th scope="row">{{ $developer->id }}</th>
-                    <td>{{ $developer->task_id }}</td>
-                    <td>{{ $developer->user_id }}</td>
+                    <th scope="row">{{ $reviewer->id }}</th>
+                    <td>{{ $reviewer->task_id }}</td>
+                    <td>{{ $reviewer->user_id }}</td>
                     <td>
                         <div>
-                            <form action="{{ route('developers.destroy', [$projectId, $taskId, $developer->id]) }}" method="post">
+                            <form action="{{ route('reviewers.destroy', [$projectId, $taskId, $reviewer->id]) }}"
+                                method="post">
                                 @csrf
                                 @method('DELETE')
-                                
-                                <a href="#" class="btn btn-success btn-sm">
-                                    @lang('Edit')
-                                </a>
-                                <button type="submit" class="btn btn-danger btn-sm">
+
+                                <button type="submit" class="btn btn-danger btn-sm"
+                                    onclick="return confirm('Are you sure want to delete?')">
                                     @lang('Delete')
                                 </button>
                             </form>
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="4">There is no reviewers.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
         <div>
-            {{ $developers->links() }}
+            {{ $reviewers->links() }}
         </div>
     </div>
 </div>

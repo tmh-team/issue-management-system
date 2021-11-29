@@ -39,7 +39,17 @@ class Task extends Model
     }
 
     /**
-     * Get the developers that owns the Task
+     * Get the task statuses that own the Status
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function task_status(): BelongsTo
+    {
+        return $this->belongsTo(TaskStatus::class);
+    }
+
+    /**
+     * Get the developers
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -49,7 +59,7 @@ class Task extends Model
     }
 
     /**
-     * Get the reviewers that owns the Task
+     * Get the reviewers
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

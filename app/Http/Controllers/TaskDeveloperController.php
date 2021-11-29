@@ -18,7 +18,7 @@ class TaskDeveloperController extends Controller
      */
     public function index(Project $project, Task $task)
     {
-        return view('developers.index', [
+        return view('task_developers.index', [
             'projectId' => $project->id,
             'taskId' => $task->id,
             'developers' => TaskDeveloper::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
@@ -34,12 +34,7 @@ class TaskDeveloperController extends Controller
      */
     public function create(Project $project, Task $task)
     {
-        return view('developers.create', [
-            'projectId' => $project->id,
-            'taskId' => $task->id,
-            'users' => $project->users,
-            'developers' => TaskDeveloper::where('task_id', $task->id)->pluck('user_id')->toArray(),
-        ]);
+        //
     }
 
     /**
@@ -52,15 +47,7 @@ class TaskDeveloperController extends Controller
      */
     public function store(Request $request, Project $project, Task $task)
     {
-        TaskDeveloper::where('task_id', $task->id)->delete();
-        foreach ($request['developer_ids'] as $id) {
-            TaskDeveloper::create([
-                'task_id' => $task->id,
-                'user_id' => $id,
-            ]);
-        }
-
-        return redirect()->route('developers.index', [$project->id, $task->id]);
+        //
     }
 
     /**
