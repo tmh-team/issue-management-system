@@ -1,10 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<x-flash.success-alert/>
-<div class="row mb-4">
-    <div class="col-6 offset-6 text-end">
+<x-flash.success-alert />
+<div class="row mb-3">
+    <div class="col-6">
         <a href="{{ route('projects.create') }}" class="btn btn-primary btn-sm">@lang('Create')</a>
+    </div>
+    <div class="col-6">
+        <form>
+            <div class="input-group">
+                <input class="form-control" name="search" value="{{ request('search') }}" type="search" placeholder="Search...">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </div>
+        </form>
     </div>
 </div>
 <div class="card mb-4">
@@ -17,7 +25,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('Name')</th>
-                    <th scope="col" style="width: 350px;">@lang('Actions')</th>
+                    <th scope="col" style="width: 400px;">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,22 +38,14 @@
                             <form action="{{ route('projects.destroy', $project->id) }}" method="post">
                                 @csrf
                                 @method('DELETE')
-
-                                <a href="{{ route('issues.index', $project->id) }}" class="btn btn-info btn-sm">
-                                @lang('Issues')
-                                </a>
-                                <a href="{{ route('users.index', ['project_id' => $project->id]) }}"
-                                    class="btn btn-warning btn-sm">
-                                    @lang('Members')
+                                <a href="{{ route('projects.show', $project->id) }}" class="btn btn-info btn-sm">
+                                    @lang('View')
                                 </a>
                                 <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-success btn-sm">
                                     @lang('Edit')
                                 </a>
-                                 <a href="{{ route('projects.show', $project->id) }}" class="btn btn-info btn-sm">
-                                    @lang('Detail')
-                                </a>
                                 <button type="submit" class="btn btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure want to delete?')">
+                                    onclick="return confirm('Are you sure want to delete a project, ({{ $project->name }})?')">
                                     @lang('Delete')
                                 </button>
                             </form>

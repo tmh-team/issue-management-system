@@ -17,6 +17,27 @@ class Project extends Model
      */
     protected $fillable = ['name', 'summary'];
 
+    public const STATUSES = [
+        'meeting',
+        'investigate',
+        'develop',
+        'testing',
+        'review',
+        'review_fix',
+        'bug fix',
+        'customer_feedback_fix',
+        'finished',
+        'rejected',
+        'pending',
+    ];
+
+    public function scopeFilter($query)
+    {
+        $query->when(request('search'), function ($query) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+        });
+    }
+
     /**
      * The users that belong to the Project
      *

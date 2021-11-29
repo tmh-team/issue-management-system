@@ -22,19 +22,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = [
-            'meeting',
-            'investigate',
-            'develop',
-            'testing',
-            'review',
-            'review_fix',
-            'bug fix',
-            'customer_feedback_fix',
-            'finished',
-            'rejected',
-            'pending',
-        ];
+        $statuses = Project::STATUSES;
 
         $categories = [
             'feature',

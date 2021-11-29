@@ -11,20 +11,6 @@ use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    // TODO: move to model
-    private $statuses = [
-        'meeting',
-        'investigate',
-        'develop',
-        'testing',
-        'review',
-        'review_fix',
-        'bug fix',
-        'customer_feedback_fix',
-        'finished',
-        'rejected',
-        'pending',
-    ];
     /**
      * Display a listing of the resource.
      *
@@ -33,7 +19,7 @@ class ProjectController extends Controller
     public function index()
     {
         return view('projects.index', [
-            'projects' => Project::orderBy('id', 'desc')->paginate(15),
+            'projects' => Project::filter()->orderBy('id', 'desc')->paginate(15),
         ]);
     }
 
@@ -46,6 +32,8 @@ class ProjectController extends Controller
     {
         return view('projects.create', [
             'users' => User::all(),
+            'project' => new Project(),
+            'selectedUsers' => collect(),
         ]);
     }
 
@@ -61,12 +49,8 @@ class ProjectController extends Controller
 
         $project->users()->attach($request->user_ids);
 
-        foreach ($this->statuses as $status) {
-            TaskStatus::create([
-                'project_id' => $project->id,
-                'status' => $status,
-            ]);
-        }
+        TaskStatus::insert($this->getDefaultStatuses($project));
+
         return redirect()->route('projects.index')->with(['success' => 'A project was created successfully.']);
     }
 
@@ -78,8 +62,8 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('projects.detail', [
-            'project' => $project
+        return view('projects.show', [
+            'project' => $project,
         ]);
     }
 
@@ -94,21 +78,21 @@ class ProjectController extends Controller
         return view('projects.edit', [
             'project' => $project,
             'users' => User::all(),
-            'selectedUsers' => $project->users->pluck('id')->toArray(),
+            'selectedUsers' => $project->users->pluck('id'),
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request  $requestk
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
     public function update(ProjectUpdateRequest $request, Project $project)
     {
         $project->update($request->all());
-        $project->users()->attach($request->user_ids);
+        $project->users()->sync($request->user_ids);
 
         return redirect()->route('projects.index')->with(['success' => 'A project was updated successfully.']);
     }
@@ -123,5 +107,22 @@ class ProjectController extends Controller
     {
         $project->delete();
         return back()->with(['success' => 'A project was deleted successfully.']);
+    }
+
+    protected function getDefaultStatuses(Project $project): array
+    {
+        $statuses = [];
+        $now = now()->toDateTimeLocalString();
+
+        foreach (Project::STATUSES as $status) {
+            $statuses[] = [
+                'project_id' => $project->id,
+                'status' => $status,
+                'created_at' => $now,
+                'updated_at' => $now,
+            ];
+        }
+
+        return $statuses;
     }
 }
