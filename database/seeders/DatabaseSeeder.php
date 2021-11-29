@@ -22,6 +22,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $statuses = Project::STATUSES;
+
         $categories = [
             'feature',
             'bug',

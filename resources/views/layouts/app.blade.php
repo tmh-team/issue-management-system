@@ -77,7 +77,9 @@
                     Components</a></div>
         </footer>
     </div>
+    <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
+    @yield('script')
 </body>
 
 </html>

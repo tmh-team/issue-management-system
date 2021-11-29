@@ -1,1 +1,5 @@
-// Here you can add other styles
+.select2-container--default .select2-selection--multiple .select2-selection__choice__display {
+    cursor: default;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+}
