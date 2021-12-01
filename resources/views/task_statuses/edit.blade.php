@@ -7,40 +7,16 @@
     </div>
     <div class="card-body">
         <form action="{{ route('statuses.update', [$projectId, $status->id]) }}" method="post">
-            @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">@lang('Status')</label>
-                <input name="status" class="form-control" type="text" value="{{ old('status', $status->status) }}">
-                @error('status')
-                    <p class="text-danger text-xs">{{ $message }}</p>  
-                @enderror
-            </div>
-
-            <div class="row mb-3">
-                <div class="col-md-1">
-                    <label class="form-label">@lang('Color')</label>
-                    <input class="form-control" type="color" style="height: 38px" oninput="getColorValue()">
-                </div>
-                <div class="col-md-1">
-                    <label class="form-label">@lang('Hex:')</label>
-                    <input name="color" class="form-control" type="text" maxlength="7" oninput="changeColorValue(this)">
-                    @error('color')
-                    <p class="text-danger text-xs">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">@lang('Update')</button>
-                <a href="{{ route('statuses.index', $projectId) }}" class="btn btn-outline-secondary">@lang('Back')</a>
-            </div>
+            @include('task_statuses._form', [
+                'submitBtnName' => 'Update'
+            ])
         </form>
     </div>
 </div>
 @endsection
 
 @section('script')
-<script src="/js/task_status/color.js"></script>
+<script src="/js/common/color.js"></script>
 @endsection

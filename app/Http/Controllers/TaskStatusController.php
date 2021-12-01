@@ -31,6 +31,7 @@ class TaskStatusController extends Controller
     {
         return view('task_statuses.create', [
             'projectId' => $project->id,
+            'status' => new TaskStatus(),
         ]);
     }
 
