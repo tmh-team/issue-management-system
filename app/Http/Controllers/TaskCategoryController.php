@@ -32,6 +32,7 @@ class TaskCategoryController extends Controller
     {
         return view('task_categories.create', [
             'projectId' => $project->id,
+            'category' => new TaskCategory(),
         ]);
     }
 

@@ -17,6 +17,7 @@ class CreateTaskCategoriesTable extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained()->cascadeOnDelete();
             $table->string('name');
+            $table->string('color');
             $table->timestamps();
         });
     }

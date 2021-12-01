@@ -14,7 +14,7 @@ class TaskCategory extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['project_id', 'name'];
+    protected $guarded = [];
 
     public const NAMES = [
         'Feature',
@@ -31,6 +31,7 @@ class TaskCategory extends Model
             $names[] = [
                 'project_id' => $project->id,
                 'name' => $name,
+                'color' => '#D8DBE0',
                 'created_at' => $now,
                 'updated_at' => $now,
             ];
