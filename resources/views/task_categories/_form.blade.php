@@ -10,7 +10,7 @@
         <label class="form-label">@lang('Color')</label>
         <input class="form-control" type="color" id="color" style="height: 38px" value="{{ old('color', $category->color) }}" oninput="getColorValue()">
     </div>
-    <div class="col-md-1">
+    <div class="col-md-1" style="width: 120px">
         <label class="form-label">@lang('Hex:')</label>
         <input name="color" class="form-control" type="text" id="color-code" maxlength="7" value="{{ old('color', $category->color) }}" oninput="changeColorValue(this)">
         @error('color')
