@@ -25,7 +25,7 @@ class TaskStatusStoreRequest extends FormRequest
     {
         return [
             'status' => 'required|string|max:255',
-            'color' => ['required', 'regex:/^#([a-f\d]{6})$/i'],
+            'color' => ['required', 'regex:/^#([a-f\d]{3}|[a-f\d]{6})$/i'],
         ];
     }
 }
