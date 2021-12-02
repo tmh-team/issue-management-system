@@ -2,7 +2,7 @@
 
 @section('style')
 <style>
-    .status {
+    .color-label {
         padding: 0 15px 5px;
         border-radius: 1em;
     }
@@ -37,7 +37,7 @@
                         {{ ($statuses->currentpage()-1) * $statuses->perpage() + $loop->index + 1 }}
                     </th>
                     <td>
-                        <label class="status" id="status-label-{{ $status->id }}">
+                        <label class="color-label" id="color-label-{{ $status->id }}">
                             {{ strtolower($status->status) }}
                         </label>
                     </td>
@@ -75,7 +75,7 @@
 
 @section('script')
 <script>
-    var statuses = @json($statuses);
+    var items = @json($statuses);
 </script>
 <script src="/js/common/what_color_to_write.js"></script>
 @endsection

@@ -39,10 +39,11 @@ const luminance = (r, g, b) => {
  * ------------------------------------------------------------
  * @return {void}
  */
-statuses.data.forEach((status) => {
-    const rgb = hexToRgb(status.color);
+items.data.forEach((item) => {
+    const rgb = hexToRgb(item.color);
     const L = luminance(...rgb);
-    const statusLabel = document.querySelector(`#status-label-${status.id}`);
-    $(statusLabel).css("backgroundColor", status.color);
-    $(statusLabel).css("color", L < 0.228 ? "#FFFFFF" : "#000000");
+
+    const label = document.querySelector(`#color-label-${item.id}`);
+    $(label).css("backgroundColor", item.color);
+    $(label).css("color", L < 0.228 ? "#FFFFFF" : "#000000");
 });
