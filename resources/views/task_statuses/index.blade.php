@@ -37,7 +37,7 @@
                         {{ ($statuses->currentpage()-1) * $statuses->perpage() + $loop->index + 1 }}
                     </th>
                     <td>
-                        <label class="status" style="background-color: {{ $status->color }}">
+                        <label class="status" id="status-label-{{ $status->id }}">
                             {{ strtolower($status->status) }}
                         </label>
                     </td>
@@ -71,4 +71,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    var statuses = @json($statuses);
+</script>
+<script src="/js/common/what_color_to_write.js"></script>
 @endsection

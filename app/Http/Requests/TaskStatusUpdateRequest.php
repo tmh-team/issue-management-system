@@ -25,7 +25,7 @@ class TaskStatusUpdateRequest extends FormRequest
     {
         return [
             'status' => 'required|string|max:255',
-            'color' => ['required', 'regex:/^#([0-9A-F]{6})$/i'],
+            'color' => ['required', 'regex:/^#([a-f\d]{6})$/i'],
         ];
     }
 }

@@ -14,7 +14,7 @@
         <input name="color_box" class="form-control" type="color" style="height: 38px"
             oninput="setValueToColorInput()">
     </div>
-    <div class="col-md-2">
+    <div class="col-md-1">
         <label class="form-label">@lang('Hex:')</label>
         <input name="color" class="form-control" type="text" maxlength="7" value="{{ old('color', $status->color) }}"
             oninput="setValueToColorBox()">

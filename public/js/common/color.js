@@ -19,6 +19,7 @@ function setInitialColorValue() {
     }
     if (colorInput.value) {
         colorBox.value = colorInput.value;
+        return;
     }
     setValueToColorInput();
 }
@@ -41,7 +42,7 @@ function setValueToColorInput() {
  * @return {void}
  */
 function setValueToColorBox() {
-    const regex = /^#([0-9A-F]{6})$/i;
+    const regex = /^#([a-f\d]{6})$/i;
 
     if (!regex.test(colorInput.value)) {
         $(colorInput).addClass("text-danger");
