@@ -9,6 +9,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
     <meta name="theme-color" content="#ffffff">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/tailwind.css') }}" rel="stylesheet">
     @yield('style')
 </head>
 
