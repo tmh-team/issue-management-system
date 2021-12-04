@@ -1,5 +1,14 @@
 @extends('layouts.app')
 
+@section('style')
+<style>
+    .color-label {
+        padding: 0 15px 5px;
+        border-radius: 1em;
+    }
+</style>
+@endsection
+
 @section('content')
 <x-flash.success-alert />
 <div class="row mb-4">
@@ -27,7 +36,11 @@
                     <th scope="row">
                         {{ ($statuses->currentpage()-1) * $statuses->perpage() + $loop->index + 1 }}
                     </th>
-                    <td>{{ $status->status }}</td>
+                    <td>
+                        <label class="color-label" id="color-label-{{ $status->id }}">
+                            {{ strtolower($status->status) }}
+                        </label>
+                    </td>
                     <td>
                         <div>
                             <form action="{{ route('statuses.destroy', [$projectId, $status->id]) }}" method="post">
@@ -58,4 +71,11 @@
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script>
+    var items = @json($statuses);
+</script>
+<script src="/js/common/what_color_to_write.js"></script>
 @endsection

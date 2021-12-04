@@ -17,6 +17,7 @@ class CreateTaskStatusesTable extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->string('status');
+            $table->string('color');
             $table->timestamps();
         });
     }

@@ -14,7 +14,7 @@ class TaskStatus extends Model
      *
      * @var string[]
      */
-    protected $fillable = ['project_id', 'status'];
+    protected $fillable = ['project_id', 'status', 'color'];
 
     public const STATUSES = [
         'Pending',
@@ -43,6 +43,7 @@ class TaskStatus extends Model
             $statuses[] = [
                 'project_id' => $project->id,
                 'status' => $status,
+                'color' => '#' . dechex(rand(0x000000, 0xFFFFFF)),
                 'created_at' => $now,
                 'updated_at' => $now,
             ];
