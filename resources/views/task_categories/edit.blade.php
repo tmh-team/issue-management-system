@@ -10,18 +10,13 @@
             @csrf
             @method('PUT')
 
-            <div class="mb-3">
-                <label class="form-label">@lang('Name')</label>
-                <input name="name" class="form-control" type="text" value="{{ old('name', $category->name) }}">
-                @error('name')
-                    <p class="text-danger text-xs">{{ $message }}</p>  
-                @enderror
-            </div>
-            <div class="d-flex justify-content-between">
-                <button type="submit" class="btn btn-primary">@lang('Update')</button>
-                <a href="{{ route('categories.index', $projectId) }}" class="btn btn-outline-secondary">@lang('Back')</a>
-            </div>
+            @include('task_categories._form', [
+                'submitBtnName' => 'Update'
+            ]) 
         </form>
     </div>
 </div>
+@endsection
+@section('script')
+    <script src="/js/helper/color.js"></script>
 @endsection

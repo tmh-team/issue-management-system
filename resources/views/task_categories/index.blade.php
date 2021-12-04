@@ -18,6 +18,8 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">@lang('Name')</th>
+                    <th scope="col">@lang('Color Code')</th>
+                    <th scope="col">@lang('Color')</th>
                     <th scope="col" style="width: 300px;">@lang('Actions')</th>
                 </tr>
             </thead>
@@ -28,6 +30,8 @@
                         {{ ($categories->currentpage()-1) * $categories->perpage() + $loop->index + 1 }}
                     </th>
                     <td>{{ $category->name }}</td>
+                    <td>{{ $category->color }}</td>
+                    <td><div class="p-3 mb-2" style="width: 10px; background-color: {{$category->color}}"></div></td>
                     <td>
                         <div>
                             <form action="{{ route('categories.destroy', [$projectId, $category->id]) }}" method="post">
