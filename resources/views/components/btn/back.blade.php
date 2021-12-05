@@ -1,0 +1,1 @@
+<a href="{{ $url }}" class="btn btn-outline-secondary">@lang('Back')</a>

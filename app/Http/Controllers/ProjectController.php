@@ -19,7 +19,9 @@ class ProjectController extends Controller
     public function index()
     {
         return view('projects.index', [
-            'projects' => Project::filter()->orderBy('id', 'desc')->paginate(15),
+            'projects' => Project::filter()
+                ->orderBy('id', 'desc')
+                ->paginate(config('contants.pagination_limit')),
         ]);
     }
 
@@ -49,7 +51,7 @@ class ProjectController extends Controller
 
         $project->users()->attach($request->user_ids);
 
-        TaskStatus::insert($this->getDefaultStatuses($project));
+        TaskStatus::insert(TaskStatus::getDefaultStatuses($project));
 
         return redirect()->route('projects.index')->with(['success' => 'A project was created successfully.']);
     }
@@ -106,6 +108,7 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         $project->delete();
+
         return back()->with(['success' => 'A project was deleted successfully.']);
     }
 

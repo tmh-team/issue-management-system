@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\IssueController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCategoryController;
 use App\Http\Controllers\TaskController;
@@ -34,7 +33,7 @@ Route::view('about', 'about')->name('about')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
-    Route::get('projects/{project}/issues/export', [IssueController::class, 'export'])->name('issues.export');
+    // Route::get('projects/{project}/issues/export', [IssueController::class, 'export'])->name('issues.export');
     Route::resource('projects/{project}/tasks', TaskController::class);
     Route::resource('projects/{project}/statuses', TaskStatusController::class);
     Route::resource('projects/{project}/categories', TaskCategoryController::class);
