@@ -1,43 +1,48 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row mb-4">
-    <div class="col-6 offset-6 text-end">
-
+<div class="tw-flex tw-justify-between tw-items-center mb-3">
+    <div>
+    </div>
+    <div class="tw-flex">
+        <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$projectId, $task->id]) }}" />
+        <x-btn.delete url="{{ route('tasks.destroy', [$projectId, $task->id]) }}" />
     </div>
 </div>
-
 <div class="card mb-4">
     <div class="card-header">
-        {{ __('Task') }} # {{ $task->id }}
-        <span class="badge me-1 bg-success">Open</span>
+        @lang('Task Details')
     </div>
     <div class="card-body">
-        <h3>@lang('Summary')</h3>
-        <x-hr />
-        <p>{{ $task->summary }}</p>
-
-        <h3>@lang('Detail')</h3>
-        <x-hr />
-        <p>{{ $task->detail }}</p>
-
-        <x-hr />
-
-        <p>@lang('Github Issue No.'): {{ $task->issue_no }}</p>
-        <p>@lang('Github Pull Request No.'): {{ $task->pull_no }}</p>
-        <p>@lang('Status'): {{ $task->status?->status }}</p>
-        <p>@lang('Category'): {{ $task->category?->name }}</p>
-        <p>@lang('Assgined to'): {{ $task->developersToString() }}</p>
-        <p>@lang('Reviewer'): {{ $task->reviewersToString() }}</p>
-        <p>@lang('Start Date'): {{ $task?->start_date->toDateString() }}</p>
-        <p>@lang('End Date'): {{ $task?->end_date?->toDateString() }}</p>
-
-    </div>
-    <div class="card-footer d-flex justify-content-between">
-        <a href="{{ route('tasks.edit', [$projectId, $task->id]) }}" class="btn btn-success btn-sm">
-            @lang('Edit')
-        </a>
-        <a href="{{ route('tasks.index', [$projectId, $task->id]) }}" class="btn btn-outline-secondary btn-sm">Back</a>
+        <ul class="list-group list-group-flush">
+            <x-card.item label="ID" value="{{ $task->id }}" />
+            <x-card.item label="Project" value="{{ $task->project->name }}" />
+            <x-card.item label="Issue No." value="{{ $task->issue_no }}" />
+            <x-card.item label="Pull Request No." value="{{ $task->pull_no }}" />
+            <x-card.item label="Summary" value="{{ $task->summary }}" />
+            <x-card.item label="Detail" value="{{ $task->detail }}" />
+            <x-card.item label="Status">
+                <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"
+                    data-bg-color="{{ $task->status?->color }}">
+                    {{ $task->status?->status }}
+                </span>
+            </x-card.item>
+            <x-card.item label="Category">
+                <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"
+                    data-bg-color="{{ $task->category?->color }}">
+                    {{ $task->category?->name }}
+                </span>
+            </x-card.item>
+            <x-card.item label="Developers" value="{!! $task->developersToString() !!}" />
+            <x-card.item label="Reviewers" value="{!! $task->reviewersToString() !!}" />
+            <x-card.item label="Start Date" value="{{ $task->start_date?->toFormattedDateString() }}" />
+            <x-card.item label="End Date" value="{{ $task->end_date?->toFormattedDateString() }}" />
+            <x-card.item label="Remark" value="{{ $task->remark }}" />
+        </ul>
     </div>
 </div>
+@endsection
+
+@section('script')
+<script src="{{ version('/js/common/bg-color.js') }}"></script>
 @endsection

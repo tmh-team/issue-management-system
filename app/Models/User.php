@@ -42,6 +42,34 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function scopeFilter($query)
+    {
+        $query->when(request('search'), function ($query) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+        })
+            ->when(request('project_id'), function ($query) {
+                $query->whereHas('projects', function ($query) {
+                    $query->where('projects.id', request('project_id'));
+                });
+            });
+    }
+
+    public function scopeSort($query)
+    {
+        $query->orderBy('id', 'desc');
+    }
+
+    /**
+     * Set the password
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function setPasswordAttribute($value)
+    {
+        return $this->attributes['password'] = bcrypt($value);
+    }
+
     /**
      * The projects that belong to the User
      *
@@ -50,5 +78,28 @@ class User extends Authenticatable
     public function projects(): BelongsToMany
     {
         return $this->belongsToMany(Project::class);
+    }
+
+    public function projectsToString()
+    {
+        return $this->projects()
+            ->get()
+            ->map(fn($project) => "<a href='{$project->path()}'>{$project->name}</a>")
+            ->join(', ');
+    }
+
+    /**
+     * The developingTasks that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function developingTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'task_developers', 'user_id', 'task_id');
+    }
+
+    public function path()
+    {
+        return route('users.show', $this->id);
     }
 }

@@ -36,14 +36,14 @@
 <div class="row mb-3">
     <div class="col-md-6">
         <label class="form-label">@lang('Start Date') <span class="text-danger">*</span></label>
-        <input name="start_date" value="{{ $task->start_date?->toDateString() }}" class="form-control" type="date">
+        <input name="start_date" value="{{ $task->start_date?->toFormattedDateString() }}" class="form-control" type="date">
         @error('start_date')
         <p class="text-danger text-xs">{{ $message }}</p>
         @enderror
     </div>
     <div class="col-md-6">
         <label class="form-label">@lang('End Date')</label>
-        <input name="end_date" value="{{ $task->end_date?->toDateString() }}" class="form-control" type="date">
+        <input name="end_date" value="{{ $task->end_date?->toFormattedDateString() }}" class="form-control" type="date">
         @error('end_date')
         <p class="text-danger text-xs">{{ $message }}</p>
         @enderror

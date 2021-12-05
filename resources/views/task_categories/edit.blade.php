@@ -7,16 +7,15 @@
     </div>
     <div class="card-body">
         <form action="{{ route('categories.update', [$projectId, $category->id]) }}" method="post">
-            @csrf
             @method('PUT')
 
             @include('task_categories._form', [
-                'submitBtnName' => 'Update'
-            ]) 
+            'submitBtnName' => 'Update'
+            ])
         </form>
     </div>
 </div>
 @endsection
 @section('script')
-    <script src="/js/helper/color.js"></script>
+<script src="/js/helper/color.js"></script>
 @endsection

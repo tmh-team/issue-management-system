@@ -3,14 +3,12 @@
 @section('content')
 <div class="card mb-4">
     <div class="card-header">
-        {{ __('Edit User') }}
+        {{ __('Create User') }}
     </div>
     <div class="card-body">
-        <form action="{{ route('users.update', $user->id) }}" method="post">
-            @method('PUT')
-
+        <form action="{{ route('users.store') }}" method="post">
             @include('users._form', [
-            'submitBtnName' => 'Update'
+            'submitBtnName' => 'Create'
             ])
         </form>
     </div>

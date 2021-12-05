@@ -18,7 +18,10 @@ class TaskStatusController extends Controller
     {
         return view('task_statuses.index', [
             'projectId' => $project->id,
-            'statuses' => TaskStatus::where('project_id', $project->id)->paginate(15),
+            'statuses' => TaskStatus::where('project_id', $project->id)
+                ->filter()
+                ->sort()
+                ->paginate(config('contants.pagination_limit')),
         ]);
     }
 

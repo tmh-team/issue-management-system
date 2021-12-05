@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProjectStoreRequest;
 use App\Http\Requests\ProjectUpdateRequest;
 use App\Models\Project;
+use App\Models\TaskCategory;
 use App\Models\TaskStatus;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class ProjectController extends Controller
     {
         return view('projects.index', [
             'projects' => Project::filter()
-                ->orderBy('id', 'desc')
+                ->filter()
+                ->sort()
                 ->paginate(config('contants.pagination_limit')),
         ]);
     }
@@ -52,6 +54,8 @@ class ProjectController extends Controller
         $project->users()->attach($request->user_ids);
 
         TaskStatus::insert(TaskStatus::getDefaultStatuses($project));
+
+        TaskCategory::insert(TaskCategory::getDefaultCategories($project));
 
         return redirect()->route('projects.index')->with(['success' => 'A project was created successfully.']);
     }

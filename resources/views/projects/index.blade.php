@@ -17,10 +17,12 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($projects as $project)
+                @forelse ($projects as $project)
                 <tr>
                     <th scope="row">{{ $project->id }}</th>
-                    <td>{{ $project->name }}</td>
+                    <td>
+                        <a href="{{ $project->path() }}">{{ $project->name }}</a>
+                    </td>
                     <td>
                         <div class="tw-flex tw-items-center">
                             <x-btn.view class="tw-mr-2" url="{{ route('projects.show', $project->id) }}" />
@@ -29,7 +31,11 @@
                         </div>
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="9">There is no project.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
         <div>

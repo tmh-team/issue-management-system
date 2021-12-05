@@ -24,6 +24,11 @@ class Project extends Model
         });
     }
 
+    public function scopeSort($query)
+    {
+        $query->orderBy('id', 'desc');
+    }
+
     /**
      * The users that belong to the Project
      *
@@ -40,5 +45,10 @@ class Project extends Model
     public function statuses()
     {
         return $this->hasMany(TaskStatus::class);
+    }
+
+    public function path()
+    {
+        return route('projects.show', $this->id);
     }
 }

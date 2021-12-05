@@ -1,67 +1,41 @@
 @extends('layouts.app')
 
-@section('style')
-<style>
-    .color-label {
-        padding: 0 15px 5px;
-        border-radius: 1em;
-    }
-</style>
-@endsection
-
 @section('content')
-<x-flash.success-alert />
-<div class="row mb-4">
-    <div class="col-6 offset-6 text-end">
-        <a href="{{ route('statuses.create', $projectId) }}" class="btn btn-primary btn-sm">@lang('Create')</a>
-    </div>
-</div>
+<x-list-header createUrl="{{ route('statuses.create', $projectId) }}" />
 
 <div class="card mb-4">
     <div class="card-header">
-        @lang('Task Status List')
+        @lang('Statuses')
     </div>
     <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
-                    <th scope="col">#</th>
+                    <th scope="col">ID</th>
                     <th scope="col">@lang('Status')</th>
-                    <th scope="col" style="width: 300px;">@lang('Actions')</th>
+                    <th scope="col" style="width: 170px;">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse ($statuses as $status)
                 <tr>
-                    <th scope="row">
-                        {{ ($statuses->currentpage()-1) * $statuses->perpage() + $loop->index + 1 }}
-                    </th>
+                    <th scope="row"> {{ $status->id }} </th>
                     <td>
-                        <label class="color-label" id="color-label-{{ $status->id }}">
-                            {{ strtolower($status->status) }}
-                        </label>
+                        <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"
+                            data-bg-color="{{ $status->color }}">
+                            {{ $status->status }}
+                        </span>
                     </td>
                     <td>
-                        <div>
-                            <form action="{{ route('statuses.destroy', [$projectId, $status->id]) }}" method="post">
-                                @csrf
-                                @method('DELETE')
-
-                                <a href="{{ route('statuses.edit', [$projectId, $status->id]) }}"
-                                    class="btn btn-success btn-sm">
-                                    @lang('Edit')
-                                </a>
-                                <button type="submit" class="btn btn-danger btn-sm"
-                                    onclick="return confirm('Are you sure want to delete?')">
-                                    @lang('Delete')
-                                </button>
-                            </form>
+                        <div class="tw-flex tw-items-center">
+                            <x-btn.edit class="tw-mr-2" url="{{ route('statuses.edit', [$projectId, $status->id]) }}" />
+                            <x-btn.delete url="{{ route('statuses.destroy', [$projectId, $status->id]) }}" />
                         </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="3">There is no task status.</td>
+                    <td colspan="3">There is no status.</td>
                 </tr>
                 @endforelse
             </tbody>
@@ -74,8 +48,5 @@
 @endsection
 
 @section('script')
-<script>
-    var items = @json($statuses);
-</script>
-<script src="/js/common/what_color_to_write.js"></script>
+<script src="{{ version('/js/common/bg-color.js') }}"></script>
 @endsection

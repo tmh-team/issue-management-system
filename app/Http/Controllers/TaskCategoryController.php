@@ -6,7 +6,6 @@ use App\Http\Requests\TaskCategoryStoreRequest;
 use App\Http\Requests\TaskCategoryUpdateRequest;
 use App\Models\Project;
 use App\Models\TaskCategory;
-use Illuminate\Http\Request;
 
 class TaskCategoryController extends Controller
 {
@@ -19,7 +18,10 @@ class TaskCategoryController extends Controller
     {
         return view('task_categories.index', [
             'projectId' => $project->id,
-            'categories' => TaskCategory::where('project_id', $project->id)->paginate(15),
+            'categories' => TaskCategory::where('project_id', $project->id)
+                ->filter()
+                ->sort()
+                ->paginate(config('contants.pagination_limit')),
         ]);
     }
 

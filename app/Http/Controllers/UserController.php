@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -14,15 +16,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $users = request('project_id') ?
-        // Project::find(request('project_id'))->users()->paginate() :
-        // User::paginate();
-
-        $users = User::when(request('project_id'), function ($query) {
-            $query->whereHas('projects', function ($query) {
-                $query->where('projects.id', request('project_id'));
-            });
-        })->paginate(15);
+        $users = User::filter()->sort()->paginate(config('contants.pagination_limit'));
 
         return view('users.index', [
             'users' => $users,
@@ -36,7 +30,9 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create', [
+            'user' => new User(),
+        ]);
     }
 
     /**
@@ -45,20 +41,24 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserStoreRequest $request)
     {
-        //
+        User::create($request->all());
+
+        return redirect()->route('users.index')->with('success', 'A user was created.');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(User $user)
     {
-        //
+        return view('users.show', [
+            'user' => $user,
+        ]);
     }
 
     /**
@@ -67,10 +67,10 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
         return view('users.edit', [
-            'user' => User::findOrFail($id)
+            'user' => $user,
         ]);
     }
 
@@ -78,15 +78,14 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserUpdateRequest $request, User $user)
     {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
+        $user->update($request->only('name'));
 
-        return redirect()->route('users.index');
+        return redirect()->route('users.index')->with('success', 'A user was updated.');
     }
 
     /**
@@ -95,9 +94,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::findOrFail($id);
         $user->delete();
 
         return back();

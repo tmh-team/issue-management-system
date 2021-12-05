@@ -22,10 +22,10 @@ class TaskController extends Controller
         return view('tasks.index', [
             'projectId' => $project->id,
             'tasks' => Task::with('status', 'category')
-                ->filter()
                 ->where('project_id', $project->id)
-                ->orderBy('id', 'desc')
-                ->paginate(15),
+                ->filter()
+                ->sort()
+                ->paginate(config('contants.pagination_limit')),
         ]);
     }
 

@@ -49,6 +49,11 @@ class Task extends Model
         });
     }
 
+    public function scopeSort($query)
+    {
+        $query->orderBy('id', 'desc');
+    }
+
     /**
      * Get the project that owns the Task
      *
@@ -91,7 +96,10 @@ class Task extends Model
 
     public function developersToString()
     {
-        return $this->developers()->pluck('name')->join(', ');
+        return $this->developers()
+            ->get()
+            ->map(fn($developer) => "<a href='{$developer->path()}'>{$developer->name}</a>")
+            ->join(', ');
     }
 
     /**
@@ -106,6 +114,9 @@ class Task extends Model
 
     public function reviewersToString()
     {
-        return $this->reviewers()->pluck('name')->join(', ');
+        return $this->reviewers()
+            ->get()
+            ->map(fn($reviewer) => "<a href='{$reviewer->path()}'>{$reviewer->name}</a>")
+            ->join(', ');
     }
 }

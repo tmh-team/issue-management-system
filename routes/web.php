@@ -35,8 +35,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
     // Route::get('projects/{project}/issues/export', [IssueController::class, 'export'])->name('issues.export');
     Route::resource('projects/{project}/tasks', TaskController::class);
-    Route::resource('projects/{project}/statuses', TaskStatusController::class);
-    Route::resource('projects/{project}/categories', TaskCategoryController::class);
+    Route::resource('projects/{project}/statuses', TaskStatusController::class)->except('show');
+    Route::resource('projects/{project}/categories', TaskCategoryController::class)->except('show');
     Route::resource('projects/{project}/tasks/{task}/developers', TaskDeveloperController::class);
     Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
     Route::resource('users', UserController::class);

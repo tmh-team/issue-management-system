@@ -7,15 +7,13 @@
     </div>
     <div class="card-body">
         <form action="{{ route('categories.store', $projectId) }}" method="post">
-            @csrf
-
             @include('task_categories._form', [
-                'submitBtnName' => 'Create'
+            'submitBtnName' => 'Create'
             ])
         </form>
     </div>
 </div>
 @endsection
 @section('script')
-    <script src="/js/helper/color.js"></script>
+<script src="/js/helper/color.js"></script>
 @endsection

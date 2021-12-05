@@ -4,7 +4,19 @@
 <div class="tw-flex tw-justify-between tw-items-center mb-3">
     <div>
         <x-btn.default url="{{ route('tasks.index', $project->id) }}">
-            @lang('Task')
+            @lang('Tasks')
+        </x-btn.default>
+
+        <x-btn.default class="tw-ml-2" url="{{ route('statuses.index', $project->id) }}">
+            @lang('Statuses')
+        </x-btn.default>
+
+        <x-btn.default class="tw-ml-2" url="{{ route('categories.index', $project->id) }}">
+            @lang('Categories')
+        </x-btn.default>
+
+        <x-btn.default class="tw-ml-2" url="{{ route('users.index', ['project_id' => $project->id]) }}">
+            @lang('Members')
         </x-btn.default>
     </div>
     <div class="tw-flex">
@@ -38,11 +50,13 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($project->users as $users)
+                @foreach ($project->users as $user)
                 <tr>
-                    <th scope="row">{{ $users->id }}</th>
-                    <td>{{ $users->name }}</td>
-                    <td>{{ $users->email }}</td>
+                    <th scope="row">{{ $user->id }}</th>
+                    <td>
+                        <a href="{{ $user->path() }}">{{ $user->name }}</a>
+                    </td>
+                    <td>{{ $user->email }}</td>
                 </tr>
                 @endforeach
             </tbody>

@@ -26,6 +26,18 @@ class TaskStatus extends Model
         'Rejected',
     ];
 
+    public function scopeFilter($query)
+    {
+        $query->when(request('search'), function ($query) {
+            $query->where('status', 'like', '%' . request('search') . '%');
+        });
+    }
+
+    public function scopeSort($query)
+    {
+        $query->orderBy('id', 'desc');
+    }
+
     /**
      * The project that belongs to the task status
      */

@@ -22,6 +22,18 @@ class TaskCategory extends Model
         'Feedback',
     ];
 
+    public function scopeFilter($query)
+    {
+        $query->when(request('search'), function ($query) {
+            $query->where('name', 'like', '%' . request('search') . '%');
+        });
+    }
+
+    public function scopeSort($query)
+    {
+        $query->orderBy('id', 'desc');
+    }
+
     public static function getDefaultCategories(Project $project): array
     {
         $names = [];
