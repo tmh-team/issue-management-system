@@ -17,14 +17,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::filter()->sort()->paginate(config('contants.pagination_limit'));
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'User Management', 'url' => route('users.index')],
+            ['title' => 'Users', 'url' => route('users.index')],
         ];
 
         return view('users.index', [
             'users' => $users,
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -35,15 +35,15 @@ class UserController extends Controller
      */
     public function create()
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'User Management', 'url' => route('users.index')],
+            ['title' => 'Users', 'url' => route('users.index')],
             ['title' => 'User Create', 'url' => route('users.create')],
         ];
 
         return view('users.create', [
             'user' => new User(),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -68,15 +68,15 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'User Management', 'url' => route('users.index')],
+            ['title' => 'Users', 'url' => route('users.index')],
             ['title' => 'User Detail', 'url' => route('users.show', $user->id)],
         ];
 
         return view('users.show', [
             'user' => $user,
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -88,15 +88,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'User Management', 'url' => route('users.index')],
+            ['title' => 'Users', 'url' => route('users.index')],
             ['title' => 'User Edit', 'url' => route('users.edit', $user->id)],
         ];
 
         return view('users.edit', [
             'user' => $user,
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

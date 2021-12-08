@@ -16,10 +16,10 @@ class TaskCategoryController extends Controller
      */
     public function index(Project $project)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
-            ['title' => 'Task Category', 'url' => route('categories.index', $project->id)],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
         ];
 
         return view('task_categories.index', [
@@ -28,7 +28,7 @@ class TaskCategoryController extends Controller
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -39,17 +39,17 @@ class TaskCategoryController extends Controller
      */
     public function create(Project $project)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
-            ['title' => 'Task Category', 'url' => route('categories.index', $project->id)],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
             ['title' => 'Category Create', 'url' => route('categories.create', $project->id)],
         ];
 
         return view('task_categories.create', [
             'projectId' => $project->id,
             'category' => new TaskCategory(),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -91,17 +91,17 @@ class TaskCategoryController extends Controller
      */
     public function edit(Project $project, TaskCategory $category)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
-            ['title' => 'Task Category', 'url' => route('categories.index', $project->id)],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
             ['title' => 'Category Edit', 'url' => route('categories.edit', [$project->id, $category->id])],
         ];
 
         return view('task_categories.edit', [
             'projectId' => $project->id,
             'category' => $category,
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

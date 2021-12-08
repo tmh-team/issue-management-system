@@ -21,10 +21,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
         ];
-        
-        return view('home', compact('breadcrumbsList'));
+
+        return view('home', compact('breadcrumbs'));
     }
 }

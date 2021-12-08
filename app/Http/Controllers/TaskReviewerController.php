@@ -18,7 +18,7 @@ class TaskReviewerController extends Controller
      */
     public function index(Project $project, Task $task)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => 'Reviewer Management', 'url' => route('reviewers.index', $project->id)],
@@ -28,7 +28,7 @@ class TaskReviewerController extends Controller
             'projectId' => $project->id,
             'taskId' => $task->id,
             'reviewers' => TaskReviewer::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

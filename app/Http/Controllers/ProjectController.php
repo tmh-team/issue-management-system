@@ -19,9 +19,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'Project Management', 'url' => route('projects.index')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
         ];
 
         return view('projects.index', [
@@ -29,7 +29,7 @@ class ProjectController extends Controller
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -40,17 +40,17 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'Project Management', 'url' => route('projects.index')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => 'Project Create', 'url' => route('projects.create')],
         ];
-        
+
         return view('projects.create', [
             'users' => User::all(),
             'project' => new Project(),
             'selectedUsers' => collect(),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -81,15 +81,15 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'Project Management', 'url' => route('projects.index')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => 'Project Detail', 'url' => route('projects.show', $project->id)],
         ];
 
         return view('projects.show', [
             'project' => $project,
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -101,9 +101,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        $breadcrumbsList = [
+        $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'Project Management', 'url' => route('projects.index')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => 'Project Edit', 'url' => route('projects.edit', $project->id)],
         ];
 
@@ -111,7 +111,7 @@ class ProjectController extends Controller
             'project' => $project,
             'users' => User::all(),
             'selectedUsers' => $project->users->pluck('id'),
-            'breadcrumbsList' => $breadcrumbsList,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
