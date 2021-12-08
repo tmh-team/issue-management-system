@@ -19,6 +19,12 @@ class TaskController extends Controller
      */
     public function index(Project $project)
     {
+        $breadcrumbsList = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Task Management', 'url' => route('tasks.index', $project->id)],
+        ];
+
         return view('tasks.index', [
             'projectId' => $project->id,
             'tasks' => Task::with('status', 'category')
@@ -26,6 +32,7 @@ class TaskController extends Controller
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
+            'breadcrumbsList' => $breadcrumbsList,
         ]);
     }
 
@@ -37,6 +44,13 @@ class TaskController extends Controller
      */
     public function create(Project $project)
     {
+        $breadcrumbsList = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Task Management', 'url' => route('tasks.index', $project->id)],
+            ['title' => 'Task Create', 'url' => route('tasks.index', $project->id)],
+        ];
+
         return view('tasks.create', [
             'projectId' => $project->id,
             'task' => new Task(),
@@ -45,6 +59,7 @@ class TaskController extends Controller
             'users' => $project->users,
             'developers' => collect(),
             'reviewers' => collect(),
+            'breadcrumbsList' => $breadcrumbsList,
         ]);
     }
 
@@ -79,9 +94,17 @@ class TaskController extends Controller
      */
     public function show(Project $project, Task $task)
     {
+        $breadcrumbsList = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Task Management', 'url' => route('tasks.index', $project->id)],
+            ['title' => 'Task Detail', 'url' => route('tasks.show', [$project->id, $task->id])],
+        ];
+
         return view('tasks.show', [
             'projectId' => $project->id,
             'task' => $task,
+            'breadcrumbsList' => $breadcrumbsList,
         ]);
     }
 
@@ -94,6 +117,13 @@ class TaskController extends Controller
      */
     public function edit(Project $project, Task $task)
     {
+        $breadcrumbsList = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Task Management', 'url' => route('tasks.index', $project->id)],
+            ['title' => 'Task Edit', 'url' => route('tasks.show', [$project->id, $task->id])],
+        ];
+
         return view('tasks.edit', [
             'projectId' => $project->id,
             'task' => $task,
@@ -102,6 +132,7 @@ class TaskController extends Controller
             'users' => $project->users,
             'developers' => $task->developers->pluck('id'),
             'reviewers' => $task->reviewers->pluck('id'),
+            'breadcrumbsList' => $breadcrumbsList,
         ]);
     }
 
