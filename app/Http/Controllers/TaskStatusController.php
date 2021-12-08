@@ -16,12 +16,19 @@ class TaskStatusController extends Controller
      */
     public function index(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
+        ];
+
         return view('task_statuses.index', [
             'projectId' => $project->id,
             'statuses' => TaskStatus::where('project_id', $project->id)
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -32,9 +39,17 @@ class TaskStatusController extends Controller
      */
     public function create(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
+            ['title' => 'Status Create', 'url' => route('statuses.create', $project->id)],
+        ];
+
         return view('task_statuses.create', [
             'projectId' => $project->id,
             'status' => new TaskStatus(),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -77,9 +92,17 @@ class TaskStatusController extends Controller
      */
     public function edit(Project $project, TaskStatus $status)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
+            ['title' => 'Status Edit', 'url' => route('statuses.edit', [$project->id, $status->id])],
+        ];
+
         return view('task_statuses.edit', [
             'projectId' => $project->id,
             'status' => $status,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

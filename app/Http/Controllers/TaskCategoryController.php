@@ -16,12 +16,19 @@ class TaskCategoryController extends Controller
      */
     public function index(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
+        ];
+
         return view('task_categories.index', [
             'projectId' => $project->id,
             'categories' => TaskCategory::where('project_id', $project->id)
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -32,9 +39,17 @@ class TaskCategoryController extends Controller
      */
     public function create(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
+            ['title' => 'Category Create', 'url' => route('categories.create', $project->id)],
+        ];
+
         return view('task_categories.create', [
             'projectId' => $project->id,
             'category' => new TaskCategory(),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -76,9 +91,17 @@ class TaskCategoryController extends Controller
      */
     public function edit(Project $project, TaskCategory $category)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
+            ['title' => 'Category Edit', 'url' => route('categories.edit', [$project->id, $category->id])],
+        ];
+
         return view('task_categories.edit', [
             'projectId' => $project->id,
             'category' => $category,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

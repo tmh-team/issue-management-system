@@ -63,6 +63,8 @@
                         </div>
                     </li>
                 </ul>
+                <div class="header-divider"></div>
+                @include('layouts.breadcrumb')
             </div>
         </header>
         <div class="body flex-grow-1 px-3">

@@ -18,10 +18,17 @@ class TaskDeveloperController extends Controller
      */
     public function index(Project $project, Task $task)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Developer Management', 'url' => route('developers.index', $project->id)],
+        ];
+
         return view('task_developers.index', [
             'projectId' => $project->id,
             'taskId' => $task->id,
             'developers' => TaskDeveloper::where('task_id', $task->id)->orderBy('id', 'desc')->paginate(15),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

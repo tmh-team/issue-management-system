@@ -19,11 +19,17 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+        ];
+
         return view('projects.index', [
             'projects' => Project::filter()
                 ->filter()
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -34,10 +40,17 @@ class ProjectController extends Controller
      */
     public function create()
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Project Create', 'url' => route('projects.create')],
+        ];
+
         return view('projects.create', [
             'users' => User::all(),
             'project' => new Project(),
             'selectedUsers' => collect(),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -68,8 +81,15 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Project Detail', 'url' => route('projects.show', $project->id)],
+        ];
+
         return view('projects.show', [
             'project' => $project,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -81,10 +101,17 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => 'Project Edit', 'url' => route('projects.edit', $project->id)],
+        ];
+
         return view('projects.edit', [
             'project' => $project,
             'users' => User::all(),
             'selectedUsers' => $project->users->pluck('id'),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 

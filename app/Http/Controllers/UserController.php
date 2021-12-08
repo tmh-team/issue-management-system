@@ -17,9 +17,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::filter()->sort()->paginate(config('contants.pagination_limit'));
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Users', 'url' => route('users.index')],
+        ];
 
         return view('users.index', [
             'users' => $users,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -30,8 +35,15 @@ class UserController extends Controller
      */
     public function create()
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Users', 'url' => route('users.index')],
+            ['title' => 'User Create', 'url' => route('users.create')],
+        ];
+
         return view('users.create', [
             'user' => new User(),
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -56,8 +68,15 @@ class UserController extends Controller
      */
     public function show(User $user)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Users', 'url' => route('users.index')],
+            ['title' => 'User Detail', 'url' => route('users.show', $user->id)],
+        ];
+
         return view('users.show', [
             'user' => $user,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -69,8 +88,15 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Users', 'url' => route('users.index')],
+            ['title' => 'User Edit', 'url' => route('users.edit', $user->id)],
+        ];
+
         return view('users.edit', [
             'user' => $user,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
