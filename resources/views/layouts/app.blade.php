@@ -81,6 +81,7 @@
     </div>
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/demo.js') }}"></script>
     @yield('script')
 </body>
 
