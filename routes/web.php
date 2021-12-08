@@ -25,6 +25,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('language/{locale}', function ($locale) {
+    if (!in_array($locale, ['en', 'jp'])) {
+        $locale = 'en';
+    }
+
+    session(['locale' => $locale]);
+
+    return back();
+});
+
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
