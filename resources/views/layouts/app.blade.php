@@ -81,9 +81,6 @@
                     Components</a></div>
         </footer>
     </div>
-    <script>
-        window.lang = JSON.parse(@json(session('lang')));
-    </script>
     <script src="{{ mix('js/app.js') }}"></script>
     <script src="{{ asset('js/coreui.bundle.min.js') }}"></script>
     @yield('script')
