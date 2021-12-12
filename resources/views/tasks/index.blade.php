@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<x-list-header createUrl="{{ route('tasks.create', $projectId) }}" />
+<x-list-header createUrl="{{ route('tasks.create', $projectId) }}"
+    exportUrl="{{ route('tasks.export', $projectId) }}" />
 
 <div class="card mb-4">
     <div class="card-header">
@@ -32,7 +33,9 @@
                         </span>
                     <td>{{ $task->issue_no }}</td>
                     <td>
-                        <a href="{{ route('tasks.show', [$projectId, $task->id]) }}">{{ Str::limit($task->summary, 10) }}</a>
+                        <a href="{{ route('tasks.show', [$projectId, $task->id]) }}">
+                            {{ Str::limit($task->summary, 10) }}
+                        </a>
                     </td>
                     <td>
                         <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"

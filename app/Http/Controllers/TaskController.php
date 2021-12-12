@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\TaskExport;
 use App\Http\Requests\TaskStoreRequest;
 use App\Http\Requests\TaskUpdateRequest;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskCategory;
 use App\Models\TaskStatus;
+use Maatwebsite\Excel\Facades\Excel;
 
 class TaskController extends Controller
 {
@@ -173,5 +175,15 @@ class TaskController extends Controller
         return redirect()
             ->route('tasks.index', $project->id)
             ->with('success', 'A task has been deleted.');
+    }
+
+    /**
+     * Export tasks info
+     *
+     * @return void
+     */
+    public function export()
+    {
+        return Excel::download(new TaskExport(), 'Tasks' . '.xlsx');
     }
 }

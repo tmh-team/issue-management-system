@@ -3,6 +3,7 @@
 <div class="row mb-3">
     <div class="col-6">
         <a href="{{ $createUrl }}" class="btn btn-primary">@lang('Create')</a>
+        <a href="{{ $exportUrl }}" class="btn btn-link">@lang('Export')</a>
     </div>
     <div class="col-6">
         <form>
