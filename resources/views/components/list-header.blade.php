@@ -3,7 +3,9 @@
 <div class="row mb-3">
     <div class="col-6">
         <a href="{{ $createUrl }}" class="btn btn-primary">@lang('Create')</a>
+        @if(isset($exportUrl))
         <a href="{{ $exportUrl }}" class="btn btn-link">@lang('Export')</a>
+        @endif
     </div>
     <div class="col-6">
         <form>
