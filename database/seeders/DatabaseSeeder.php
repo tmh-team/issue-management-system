@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Profile;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskCategory;
@@ -21,8 +22,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        User::factory()->create([
+        $user = User::factory()->create([
             'email' => 'admin@test.com',
+        ]);
+
+        Profile::factory()->create([
+            'user_id' => $user->id
         ]);
 
         $projects = Project::factory(10)

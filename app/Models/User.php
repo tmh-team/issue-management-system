@@ -102,4 +102,14 @@ class User extends Authenticatable
     {
         return route('users.show', $this->id);
     }
+
+    /**
+     * The profile has one to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
 }

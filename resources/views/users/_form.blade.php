@@ -1,7 +1,7 @@
 @csrf
 <x-input.text class="mb-3" label="Name" name="name" value="{{ $user->name }}" />
 @if (request()->routeIs('users.create'))
-<x-input.text class="mb-3" label="Email" name="email" type="email" value="{{ $user->name }}" />
+<x-input.text class="mb-3" label="Email" name="email" type="email" value="{{ $user->email }}" />
 <x-input.text class="mb-3" label="Password" name="password" value="password" />
 @endif
 

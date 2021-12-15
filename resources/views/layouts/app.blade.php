@@ -51,6 +51,12 @@
                             role="button" aria-haspopup="true" aria-expanded="false">
                             {{ Auth::user()->name }}</a>
                         <div class="dropdown-menu dropdown-menu-end pt-0">
+                            <a class="dropdown-item" href="{{ route('profile.index') }}">
+                                <svg class="icon me-2">
+                                    <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
+                                </svg>
+                                {{ __('Profile') }}
+                            </a>
                             <form method="POST" action="{{ route('logout') }}">
                                 @csrf
                                 <a class="dropdown-item" href="{{ route('logout') }}"
