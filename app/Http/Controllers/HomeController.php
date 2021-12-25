@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Models\User;
+
 class HomeController extends Controller
 {
     /**
@@ -25,6 +28,10 @@ class HomeController extends Controller
             ['title' => 'Home', 'url' => route('home')],
         ];
 
-        return view('home', compact('breadcrumbs'));
+        return view('home', [
+            'projectCount' => Project::count(),
+            'userCount' => User::count(),
+            'breadcrumbs' => $breadcrumbs,
+        ]);
     }
 }
