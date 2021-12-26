@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\Task;
 use App\Models\User;
 
 class HomeController extends Controller
@@ -31,6 +32,7 @@ class HomeController extends Controller
         return view('home', [
             'projectCount' => Project::count(),
             'userCount' => User::count(),
+            'taskCount' => Task::count(),
             'breadcrumbs' => $breadcrumbs,
         ]);
     }
