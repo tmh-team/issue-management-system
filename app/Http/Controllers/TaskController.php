@@ -24,6 +24,7 @@ class TaskController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
         ];
 
@@ -49,6 +50,7 @@ class TaskController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
             ['title' => 'Task Create', 'url' => route('tasks.index', $project->id)],
         ];
@@ -99,6 +101,7 @@ class TaskController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
             ['title' => 'Task Detail', 'url' => route('tasks.show', [$project->id, $task->id])],
         ];
@@ -122,6 +125,7 @@ class TaskController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
             ['title' => 'Task Edit', 'url' => route('tasks.show', [$project->id, $task->id])],
         ];

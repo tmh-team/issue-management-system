@@ -19,6 +19,7 @@ class TaskCategoryController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
         ];
 
@@ -42,6 +43,7 @@ class TaskCategoryController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
             ['title' => 'Category Create', 'url' => route('categories.create', $project->id)],
         ];
@@ -94,6 +96,7 @@ class TaskCategoryController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Categories', 'url' => route('categories.index', $project->id)],
             ['title' => 'Category Edit', 'url' => route('categories.edit', [$project->id, $category->id])],
         ];

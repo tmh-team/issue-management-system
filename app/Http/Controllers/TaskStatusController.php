@@ -19,6 +19,7 @@ class TaskStatusController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
         ];
 
@@ -42,6 +43,7 @@ class TaskStatusController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
             ['title' => 'Status Create', 'url' => route('statuses.create', $project->id)],
         ];
@@ -95,6 +97,7 @@ class TaskStatusController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Statuses', 'url' => route('statuses.index', $project->id)],
             ['title' => 'Status Edit', 'url' => route('statuses.edit', [$project->id, $status->id])],
         ];

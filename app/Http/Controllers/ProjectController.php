@@ -84,7 +84,7 @@ class ProjectController extends Controller
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
-            ['title' => 'Project Detail', 'url' => route('projects.show', $project->id)],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
         ];
 
         return view('projects.show', [
