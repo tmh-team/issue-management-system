@@ -29,7 +29,6 @@
             <td>{{ $task->start_date?->toFormattedDateString() }}</td>
             <td>{{ $task->end_date?->toFormattedDateString() }}</td>
             <td>{{ $task->remarks }}</td>
-            <td>{{ $task->closed }}</td>
         </tr>
         @endforeach
     </tbody>

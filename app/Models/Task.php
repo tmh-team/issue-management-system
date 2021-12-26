@@ -37,15 +37,55 @@ class Task extends Model
         'start_date',
         'end_date',
         'remarks',
-        'closed',
+        'closed_at',
     ];
 
     public function scopeFilter($query)
     {
         $query->when(request('search'), function ($query) {
-            $query->where('summary', 'like', '%' . request('search') . '%')
-                ->orWhere('issue_no', 'like', '%' . request('search') . '%')
-                ->orWhere('pull_no', 'like', '%' . request('search') . '%');
+            $query->where(function ($query) {
+                $query->where('summary', 'like', '%' . request('search') . '%')
+                    ->orWhere('issue_no', 'like', '%' . request('search') . '%')
+                    ->orWhere('pull_no', 'like', '%' . request('search') . '%');
+            });
+        })->when(request('filter'), function ($query) {
+            $query->when(isset(request('filter')['category']), function ($query) {
+                $query->whereHas('category', function ($query) {
+                    $query->where('id', request('filter')['category']);
+                });
+            })
+                ->when(isset(request('filter')['status']), function ($query) {
+                    $query->whereHas('status', function ($query) {
+                        $query->where('id', request('filter')['status']);
+                    });
+                })
+                ->when(isset(request('filter')['from_start_date']), function ($query) {
+                    $query->where(function ($query) {
+                        $fromDate = request('filter')['from_start_date'];
+                        $toDate = request('filter')['to_start_date'] ?? $fromDate;
+
+                        $query->whereDate('start_date', '>=', $fromDate)
+                            ->whereDate('start_date', '<=', $toDate);
+                    });
+                });
+        });
+    }
+
+    /**
+     * Scope a query to only include active
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeActive($query)
+    {
+        if (request('filter')) {
+            return $query;
+        }
+
+        return $query->where(function ($query) {
+            $query->whereNull('end_date')
+                ->orWhereDate('end_date', '>=', now());
         });
     }
 

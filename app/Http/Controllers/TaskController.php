@@ -28,13 +28,20 @@ class TaskController extends Controller
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
         ];
 
+        $tasks = Task::with('status', 'category')
+        ->where('project_id', $project->id)
+        ->active()
+        ->filter()
+        ->sort()
+        ->paginate(config('contants.pagination_limit'));
+
         return view('tasks.index', [
             'projectId' => $project->id,
-            'tasks' => Task::with('status', 'category')
-                ->where('project_id', $project->id)
-                ->filter()
-                ->sort()
-                ->paginate(config('contants.pagination_limit')),
+            'tasks' => $tasks,
+            'options' => [
+                'statuses' => TaskStatus::where('project_id', $project->id)->get(),
+                'categories' => TaskCategory::where('project_id', $project->id)->get()
+            ],
             'breadcrumbs' => $breadcrumbs,
         ]);
     }

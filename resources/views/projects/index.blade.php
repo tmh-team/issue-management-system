@@ -13,7 +13,7 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">@lang('Name')</th>
-                    <th scope="col" style="width: 170px;">@lang('Actions')</th>
+                    <th scope="col" style="width: 200px;">@lang('Actions')</th>
                 </tr>
             </thead>
             <tbody>
@@ -25,6 +25,9 @@
                     </td>
                     <td>
                         <div class="tw-flex tw-items-center">
+                            <a href="{{ route('tasks.index', $project->id) }}" class="btn btn-outline-info tw-mr-2">
+                                @lang('Tasks')
+                            </a>
                             <x-btn.view class="tw-mr-2" url="{{ route('projects.show', $project->id) }}" />
                             <x-btn.edit class="tw-mr-2" url="{{ route('projects.edit', $project->id) }}" />
                             <x-btn.delete url="{{ route('projects.destroy', $project->id) }}" />

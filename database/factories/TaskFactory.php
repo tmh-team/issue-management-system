@@ -29,7 +29,6 @@ class TaskFactory extends Factory
             'start_date' => now()->subDays(rand(1, 3)),
             'end_date' => rand(0, 1) ? now()->toDateTimeString() : null,
             'remarks' => rand(0, 1) ? $this->faker->text(25) : null,
-            'closed' => rand(0, 1) ? now()->toDateTimeString() : null,
         ];
     }
 }

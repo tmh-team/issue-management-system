@@ -25,7 +25,6 @@ class CreateTasksTable extends Migration
             $table->timestamp('start_date')->nullable();
             $table->timestamp('end_date')->nullable();
             $table->text('remarks')->nullable();
-            $table->timestamp('closed')->nullable();
             $table->timestamps();
         });
     }

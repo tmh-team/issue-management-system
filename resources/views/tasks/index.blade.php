@@ -1,12 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<x-list-header createUrl="{{ route('tasks.create', $projectId) }}"
-    exportUrl="{{ route('tasks.export', $projectId) }}" />
+<x-flash.alert />
 
-<div class="card mb-4">
-    <div class="card-header">
+<div class="row mb-3">
+    <div class="col-6">
+        <x-btn.create url="{{ route('tasks.create', $projectId) }}" />
+        <x-btn.export url="{{ route('tasks.export', $projectId) }}" class="tw-ml-2"/>
+    </div>
+</div>
+
+@include('tasks._filter')
+
+<div class="card mt-3 mb-4">
+    <div class="card-header tw-flex tw-items-center tw-justify-between">
         @lang('Task List')
+
+        <x-input.search />
     </div>
     <div class="card-body">
         <table class="table table-striped">
@@ -14,7 +24,6 @@
                 <tr>
                     <th scope="col">ID</th>
                     <th scope="col">@lang('Category')</th>
-                    <th scope="col">@lang('Issue No.')</th>
                     <th scope="col">@lang('Summary')</th>
                     <th scope="col">@lang('Status')</th>
                     <th scope="col">@lang('Start Date')</th>
@@ -27,24 +36,24 @@
                 <tr>
                     <th scope="row">{{ $task->id }}</th>
                     <td>
-                        <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"
+                        <span class="tw- tw-p-2 tw-rounded-2xl tw-text-sm"
                             data-bg-color="{{ $task->category?->color }}">
                             {{ $task->category?->name }}
                         </span>
-                    <td>{{ $task->issue_no }}</td>
+                    </td>
                     <td>
                         <a href="{{ route('tasks.show', [$projectId, $task->id]) }}">
                             {{ Str::limit($task->summary, 10) }}
                         </a>
                     </td>
                     <td>
-                        <span class="tw-bg-gray-300 tw-p-2 tw-rounded-2xl tw-text-sm"
+                        <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-sm"
                             data-bg-color="{{ $task->status->color }}">
                             {{ $task->status->status }}
                         </span>
                     </td>
-                    <td>{{ $task?->start_date?->toFormattedDateString() }}</td>
-                    <td>{{ $task?->end_date?->toFormattedDateString() }}</td>
+                    <td>{{ $task->start_date?->toDateString() }}</td>
+                    <td>{{ $task->end_date?->toDateString() }}</td>
                     <td>
                         <div class="tw-flex tw-items-center">
                             <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$projectId, $task->id]) }}" />
