@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocalizationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCategoryController;
@@ -22,25 +23,15 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::view('/', 'welcome');
 
-Route::get('language/{locale}', function ($locale) {
-    if (!in_array($locale, ['en', 'jp'])) {
-        $locale = 'en';
-    }
-
-    session(['locale' => $locale]);
-
-    return back();
-});
+Route::get('language/{locale}', LocalizationController::class);
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('about', 'about')->name('about')->middleware('auth');
+// Route::view('about', 'about')->name('about')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
