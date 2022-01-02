@@ -30,8 +30,7 @@ class TaskController extends Controller
 
         $tasks = Task::with('status', 'category')
         ->where('project_id', $project->id)
-        ->active()
-        ->filter()
+        ->filter(request(['search', 'filter']))
         ->sort()
         ->paginate(config('contants.pagination_limit'));
 
@@ -59,7 +58,7 @@ class TaskController extends Controller
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-            ['title' => 'Task Create', 'url' => route('tasks.index', $project->id)],
+            ['title' => 'Create', 'url' => route('tasks.index', $project->id)],
         ];
 
         return view('tasks.create', [
@@ -134,7 +133,7 @@ class TaskController extends Controller
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => $project->name, 'url' => route('projects.show', $project->id)],
             ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-            ['title' => 'Task Edit', 'url' => route('tasks.show', [$project->id, $task->id])],
+            ['title' => 'Edit', 'url' => route('tasks.show', [$project->id, $task->id])],
         ];
 
         return view('tasks.edit', [

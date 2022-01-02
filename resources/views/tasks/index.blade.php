@@ -36,7 +36,7 @@
                 <tr>
                     <th scope="row">{{ $task->id }}</th>
                     <td>
-                        <span class="tw- tw-p-2 tw-rounded-2xl tw-text-sm"
+                        <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-xs"
                             data-bg-color="{{ $task->category?->color }}">
                             {{ $task->category?->name }}
                         </span>
@@ -47,7 +47,7 @@
                         </a>
                     </td>
                     <td>
-                        <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-sm"
+                        <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-xs"
                             data-bg-color="{{ $task->status->color }}">
                             {{ $task->status->status }}
                         </span>

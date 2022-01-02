@@ -14,7 +14,6 @@
                             </svg></span>
                         <input class="form-control @error('email') is-invalid @enderror" type="text" name="email"
                             placeholder="{{ __('Email') }}"
-                            value="admin@test.com"
                             required autofocus>
                         @error('email')
                         <div class="invalid-feedback">
@@ -28,7 +27,6 @@
                             </svg></span>
                         <input class="form-control @error('password') is-invalid @enderror" type="password"
                             name="password"
-                            value="password"
                             placeholder="{{ __('Password') }}" required>
                         @error('password')
                         <div class="invalid-feedback">

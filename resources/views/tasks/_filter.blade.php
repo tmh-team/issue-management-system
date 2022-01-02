@@ -1,7 +1,7 @@
 <div>
     <form
         class="tw-flex tw-flex-wrap tw-items-center tw-justify-between tw-space-x-2">
-        <label>@lang('Period')</label>
+        <label>@lang('Start Date')</label>
 
         <input type="hidden" name="search" value="{{ request('search') }}">
 
@@ -10,6 +10,8 @@
             class="form-control tw-flex-1"
             name="filter[from_start_date]"
             value="{{ request('filter')['from_start_date'] ?? '' }}">
+
+        <label>@lang('End Date')</label>
 
         <input
             type="date"

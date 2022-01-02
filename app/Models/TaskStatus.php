@@ -16,14 +16,14 @@ class TaskStatus extends Model
      */
     protected $fillable = ['project_id', 'status', 'color'];
 
-    public const STATUSES = [
-        'Pending',
-        'Investigate',
-        'WIP',
-        'Review',
-        'Testing',
-        'Finished',
-        'Rejected',
+    public const DEFAULT_ITEMS = [
+        ['name' => 'Pending', 'color' => '#E879F9'],
+        ['name' => 'Investigate', 'color' => '#0EA5E9'],
+        ['name' => 'WIP', 'color' => '#6366F1'],
+        ['name' => 'Review', 'color' => '#FDE047'],
+        ['name' => 'Testing', 'color' => '#FB923C'],
+        ['name' => 'Finished', 'color' => '#10B981'],
+        ['name' => 'Rejected', 'color' => '#EF4444'],
     ];
 
     public function scopeFilter($query)
@@ -51,11 +51,11 @@ class TaskStatus extends Model
         $statuses = [];
         $now = now()->toDateTimeLocalString();
 
-        foreach (self::STATUSES as $status) {
+        foreach (self::DEFAULT_ITEMS as $item) {
             $statuses[] = [
                 'project_id' => $project->id,
-                'status' => $status,
-                'color' => '#' . dechex(rand(0x000000, 0xFFFFFF)),
+                'status' => $item['name'],
+                'color' => $item['color'],
                 'created_at' => $now,
                 'updated_at' => $now,
             ];

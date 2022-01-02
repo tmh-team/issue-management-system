@@ -16,10 +16,10 @@ class TaskCategory extends Model
      */
     protected $guarded = [];
 
-    public const NAMES = [
-        'Feature',
-        'Bug',
-        'Feedback',
+    public const DEFAULT_ITEMS = [
+        ['name' => 'Feature', 'color' => '#10B981'],
+        ['name' => 'Bug', 'color' => '#EF4444'],
+        ['name' => 'Feedback', 'color' => '#60A5FA'],
     ];
 
     public function scopeFilter($query)
@@ -39,11 +39,11 @@ class TaskCategory extends Model
         $names = [];
         $now = now()->toDateTimeLocalString();
 
-        foreach (self::NAMES as $name) {
+        foreach (self::DEFAULT_ITEMS as $item) {
             $names[] = [
                 'project_id' => $project->id,
-                'name' => $name,
-                'color' => '#D8DBE0',
+                'name' => $item['name'],
+                'color' => $item['color'],
                 'created_at' => $now,
                 'updated_at' => $now,
             ];

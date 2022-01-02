@@ -40,44 +40,43 @@ class Task extends Model
         'closed_at',
     ];
 
-    public function scopeFilter($query)
+    public function scopeFilter($query, array $filters = [])
     {
-        $query->when(request('search'), function ($query) {
-            $query->where(function ($query) {
-                $query->where('summary', 'like', '%' . request('search') . '%')
-                    ->orWhere('issue_no', 'like', '%' . request('search') . '%')
-                    ->orWhere('pull_no', 'like', '%' . request('search') . '%');
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where(function ($query) use ($search) {
+                $query->where('summary', 'like', '%' . $search . '%')
+                    ->orWhere('issue_no', 'like', '%' . $search . '%')
+                    ->orWhere('pull_no', 'like', '%' . $search . '%');
             });
-        })->when(request('filter'), function ($query) {
-            $query->when(isset(request('filter')['category']), function ($query) {
-                $query->whereHas('category', function ($query) {
-                    $query->where('id', request('filter')['category']);
+        });
+
+        $query->when($filters['filter'] ?? false, function ($query, $filter) {
+            $query->when($filter['category'] ?? false, function ($query, $category) {
+                $query->whereHas('category', function ($query) use ($category) {
+                    $query->where('id', $category);
                 });
             })
-                ->when(isset(request('filter')['status']), function ($query) {
-                    $query->whereHas('status', function ($query) {
-                        $query->where('id', request('filter')['status']);
+                ->when($filter['status'] ?? false, function ($query, $status) {
+                    $query->whereHas('status', function ($query) use ($status) {
+                        $query->where('id', $status);
                     });
                 })
-                ->when(isset(request('filter')['from_start_date']), function ($query) {
-                    $query->where(function ($query) {
-                        $fromDate = request('filter')['from_start_date'];
-                        $toDate = request('filter')['to_start_date'] ?? $fromDate;
-
-                        $query->whereDate('start_date', '>=', $fromDate)
-                            ->whereDate('start_date', '<=', $toDate);
-                    });
+                ->when($filter['from_start_date'] ?? false, function ($query, $fromDate) {
+                    $query->whereDate('start_date', '>=', $fromDate);
+                })
+                ->when($filter['to_start_date'] ?? false, function ($query, $toDate) {
+                    $query->whereDate('start_date', '<=', $toDate);
                 });
         });
     }
 
     /**
-     * Scope a query to only include active
+     * Scope a query to only include not finish
      *
      * @param  \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeActive($query)
+    public function scopeNotFinish($query)
     {
         if (request('filter')) {
             return $query;

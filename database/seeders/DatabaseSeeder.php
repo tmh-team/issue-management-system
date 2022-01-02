@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\App;
 
@@ -14,8 +15,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (App::isLocal()) {
-            $this->call(TestSeeder::class);
-        }
+        User::factory()->create(['email' => 'super-admin@test.com']);
     }
 }
