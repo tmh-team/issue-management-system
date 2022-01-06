@@ -1,13 +1,13 @@
-# Task Management System
+# Project Management System
 
 ## Installation
 
 Clone the repo locally:
 
 ```
-git clone https://github.com/tmh-team/task-management-system.git
+git clone https://github.com/tmh-team/project-management-system.git
 
-cd task-management-system
+cd project-management-system
 ```
 
 Install PHP dependencies:
