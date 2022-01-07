@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\LocalizationController;
+use App\Http\Controllers\MyProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCategoryController;
@@ -43,4 +44,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
     Route::resource('users', UserController::class);
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'show', 'destroy');
+    Route::resource('my-projects', MyProjectController::class);
 });
