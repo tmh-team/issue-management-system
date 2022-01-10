@@ -1,3 +1,3 @@
-<a href="{{ $url }}" {{ $attributes->merge(['class' => 'btn btn-outline-primary']) }}>
+<a href="{{ $url }}" {{ $attributes->merge(['class' => 'btn']) }}>
     @lang('Export')
 </a>

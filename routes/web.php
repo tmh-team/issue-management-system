@@ -35,6 +35,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
+    Route::get('my-tasks/export', [TaskController::class, 'export'])->name('tasks.my_tasks_export');
+    Route::get('my-tasks', [TaskController::class, 'myTasks'])->name('tasks.my_tasks');
     Route::get('projects/{project}/tasks/export', [TaskController::class, 'export'])->name('tasks.export');
     Route::resource('projects/{project}/tasks', TaskController::class);
     Route::resource('projects/{project}/statuses', TaskStatusController::class)->except('show');

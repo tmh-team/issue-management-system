@@ -66,6 +66,18 @@ class Task extends Model
                 })
                 ->when($filter['to_start_date'] ?? false, function ($query, $toDate) {
                     $query->whereDate('start_date', '<=', $toDate);
+                })
+                ->when($filter['view'] ?? false, function ($query, $view) {
+                    if ($view === 'develop') {
+                        $query->whereHas('developers', function ($query) {
+                            $query->where('user_id', auth()->id());
+                        });
+                    }
+                    if ($view === 'review') {
+                        $query->whereHas('reviewers', function ($query) {
+                            $query->where('user_id', auth()->id());
+                        });
+                    }
                 });
         });
     }

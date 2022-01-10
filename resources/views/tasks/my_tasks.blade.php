@@ -5,18 +5,18 @@
 
 <div class="row mb-3">
     <div class="col-6">
-        <x-btn.create url="{{ route('tasks.create', $projectId) }}" />
-        <x-btn.export url="{{ route('tasks.export', $projectId) }}" class="btn-outline-primary tw-ml-2"/>
+        {{-- <x-btn.create url="{{ route('tasks.create', $projectId) }}" /> --}}
+        <x-btn.export url="{{ route('tasks.my_tasks_export') }}" class="btn-primary tw-ml-2"/>
     </div>
 </div>
 
-@include('tasks._filter')
+@include('tasks._my_tasks_filter')
 
 <div class="card mt-3 mb-4">
     <div class="card-header tw-flex tw-items-center tw-justify-between">
         @lang('Task List')
 
-        <x-input.search />
+        @include('tasks._my_tasks_search')
     </div>
     <div class="card-body">
         <table class="table table-striped">
@@ -42,7 +42,7 @@
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('tasks.show', [$projectId, $task->id]) }}">
+                        <a href="{{ route('tasks.show', [$task->project_id, $task->id]) }}">
                             {{ Str::limit($task->summary, 10) }}
                         </a>
                     </td>
@@ -56,9 +56,9 @@
                     <td>{{ $task->end_date?->toDateString() }}</td>
                     <td>
                         <div class="tw-flex tw-items-center">
-                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$projectId, $task->id]) }}" />
-                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$projectId, $task->id]) }}" />
-                            <x-btn.delete url="{{ route('tasks.destroy', [$projectId, $task->id]) }}" />
+                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$task->project_id, $task->id]) }}" />
+                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$task->project_id, $task->id]) }}" />
+                            <x-btn.delete url="{{ route('tasks.destroy', [$task->project_id, $task->id]) }}" />
                         </div>
                     </td>
                 </tr>
@@ -70,7 +70,7 @@
             </tbody>
         </table>
         <div>
-            {{ $tasks->links() }}
+            {{ $tasks->withQueryString()->links() }}
         </div>
     </div>
 </div>
