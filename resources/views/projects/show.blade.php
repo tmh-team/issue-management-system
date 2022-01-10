@@ -3,7 +3,7 @@
 @section('content')
 <div class="tw-flex tw-justify-between tw-items-center mb-3">
     <div>
-        <x-btn.default url="{{ route('tasks.index', $project->id) }}">
+        <x-btn.default url="{{ route('tasks.index', ['filter[project]' => $project->id]) }}">
             @lang('Tasks')
         </x-btn.default>
 

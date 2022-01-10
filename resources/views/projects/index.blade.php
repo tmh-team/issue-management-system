@@ -25,7 +25,7 @@
                     </td>
                     <td>
                         <div class="tw-flex tw-items-center">
-                            <a href="{{ route('tasks.index', $project->id) }}" class="btn btn-outline-primary tw-mr-2">
+                            <a href="{{ route('tasks.index', ['filter[project]' => $project->id]) }}" class="btn btn-outline-primary tw-mr-2">
                                 @lang('Tasks')
                             </a>
                             <x-btn.view class="tw-mr-2" url="{{ route('projects.show', $project->id) }}" />

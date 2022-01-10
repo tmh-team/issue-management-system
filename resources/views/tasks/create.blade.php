@@ -7,7 +7,7 @@
         @lang('Create Task')
     </div>
     <div class="card-body">
-        <form action="{{ route('tasks.store', $projectId) }}" method="post">
+        <form action="{{ route('tasks.store') }}" method="post">
             @include('tasks._form', [
             'submitBtnName' => 'Create'
             ])

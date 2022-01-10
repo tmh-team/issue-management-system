@@ -5,8 +5,8 @@
     <div>
     </div>
     <div class="tw-flex">
-        <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$projectId, $task->id]) }}" />
-        <x-btn.delete url="{{ route('tasks.destroy', [$projectId, $task->id]) }}" />
+        <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$task->id, 'filter[project]' => $projectId]) }}" />
+        <x-btn.delete url="{{ route('tasks.destroy', [$task->id, 'filter[project]' => $projectId]) }}" />
     </div>
 </div>
 <div class="card mb-4">
