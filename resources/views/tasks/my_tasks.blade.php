@@ -5,8 +5,7 @@
 
 <div class="row mb-3">
     <div class="col-6">
-        {{-- <x-btn.create url="{{ route('tasks.create', $projectId) }}" /> --}}
-        <x-btn.export url="{{ route('tasks.my_tasks_export') }}" class="btn-primary tw-ml-2"/>
+        <x-btn.export url="{{ route('tasks.my_tasks_export') }}" class="btn-primary tw-ml-2" />
     </div>
 </div>
 
@@ -14,8 +13,13 @@
 
 <div class="card mt-3 mb-4">
     <div class="card-header tw-flex tw-items-center tw-justify-between">
-        @lang('Task List')
-
+        <div>
+            @lang('Task List')
+            <a href="{{ route('tasks.my_tasks', ['filter[view]' => 'develop']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks', ['filter[view]' => 'develop'])) tw-text-gray-400 @endif">@lang('Develop')</a>
+            <a href="{{ route('tasks.my_tasks', ['filter[view]' => 'review']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks', ['filter[view]' => 'review'])) tw-text-gray-400 @endif">@lang('Review')</a>
+        </div>
         @include('tasks._my_tasks_search')
     </div>
     <div class="card-body">
@@ -58,8 +62,10 @@
                     <td>{{ $task->end_date?->toDateString() }}</td>
                     <td>
                         <div class="tw-flex tw-items-center">
-                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$task->project_id, $task->id]) }}" />
-                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$task->project_id, $task->id]) }}" />
+                            <x-btn.view class="tw-mr-2"
+                                url="{{ route('tasks.show', [$task->project_id, $task->id]) }}" />
+                            <x-btn.edit class="tw-mr-2"
+                                url="{{ route('tasks.edit', [$task->project_id, $task->id]) }}" />
                             <x-btn.delete url="{{ route('tasks.destroy', [$task->project_id, $task->id]) }}" />
                         </div>
                     </td>
