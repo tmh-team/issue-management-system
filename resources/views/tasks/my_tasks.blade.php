@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">@lang('Project')</th>
                     <th scope="col">@lang('Category')</th>
                     <th scope="col">@lang('Summary')</th>
                     <th scope="col">@lang('Status')</th>
@@ -35,6 +36,7 @@
                 @forelse ($tasks as $task)
                 <tr>
                     <th scope="row">{{ $task->id }}</th>
+                    <td>{{ $task->project->name }}</td>
                     <td>
                         <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-xs"
                             data-bg-color="{{ $task->category?->color }}">

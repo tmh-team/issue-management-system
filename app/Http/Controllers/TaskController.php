@@ -54,7 +54,7 @@ class TaskController extends Controller
     {
         [$projectIds, $statuses, $categories] = $this->getMyFilters();
 
-        $tasks = Task::with('status', 'category', 'developers', 'reviewers')
+        $tasks = Task::with('project', 'status', 'category', 'developers', 'reviewers')
             ->filter(request(['search', 'filter']))
             ->sort()
             ->paginate(config('contants.pagination_limit'));
