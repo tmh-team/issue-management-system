@@ -17,7 +17,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('tasks.my_tasks', ['filter[view]' => 'develop']) }}">
+        <a class="nav-link" href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'develop']) }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
             </svg>

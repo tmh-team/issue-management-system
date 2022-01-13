@@ -1,3 +1,1 @@
-<a href="{{ $url }}" {{ $attributes->merge(['class' => 'btn']) }}>
-    @lang('Export')
-</a>
+<button type="submit" {{ $attributes->merge(['class' => 'btn']) }}>@lang('Export')</button>

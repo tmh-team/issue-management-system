@@ -59,7 +59,7 @@ class TaskController extends Controller
             ->sort()
             ->paginate(config('contants.pagination_limit'));
 
-        return view('tasks.my_tasks', [
+        return view('tasks.my_tasks.index', [
             'tasks' => $tasks,
             'options' => [
                 'projects' => Project::whereIn('id', $projectIds)->get(),
@@ -243,12 +243,22 @@ class TaskController extends Controller
     }
 
     /**
-     * Export tasks info.
+     * Export all tasks.
      *
      * @return void
      */
     public function export()
     {
-        return Excel::download(new TaskExport(), 'Tasks' . '.xlsx');
+        return Excel::download(new TaskExport('tasks.export'), 'Tasks' . '.xlsx');
+    }
+
+    /**
+     * Export my tasks.
+     *
+     * @return void
+     */
+    public function myTasksExport()
+    {
+        return Excel::download(new TaskExport('tasks.my_tasks.export'), 'My Tasks' . '.xlsx');
     }
 }

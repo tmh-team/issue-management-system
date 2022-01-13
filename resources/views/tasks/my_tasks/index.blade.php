@@ -5,22 +5,30 @@
 
 <div class="row mb-3">
     <div class="col-6">
-        <x-btn.export url="{{ route('tasks.my_tasks_export') }}" class="btn-primary tw-ml-2" />
+        <form action="{{ route('tasks.my_tasks.export') }}">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="filter[view]" value="{{ request('filter')['view'] ?? '' }}">
+            <input type="hidden" name="filter[from_start_date]"
+                value="{{ request('filter')['from_start_date)'] ?? '' }}">
+            <input type="hidden" name="filter[category]" value="{{ request('filter')['category'] ?? '' }}">
+            <input type="hidden" name="filter[status]" value="{{ request('filter')['status'] ?? '' }}">
+            <x-btn.export class="btn-primary tw-ml-2" />
+        </form>
     </div>
 </div>
 
-@include('tasks._my_tasks_filter')
+@include('tasks.my_tasks._filter')
 
 <div class="card mt-3 mb-4">
     <div class="card-header tw-flex tw-items-center tw-justify-between">
         <div>
             @lang('Task List')
-            <a href="{{ route('tasks.my_tasks', ['filter[view]' => 'develop']) }}"
-                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks', ['filter[view]' => 'develop'])) tw-text-gray-400 @endif">@lang('Develop')</a>
-            <a href="{{ route('tasks.my_tasks', ['filter[view]' => 'review']) }}"
-                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks', ['filter[view]' => 'review'])) tw-text-gray-400 @endif">@lang('Review')</a>
+            <a href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'develop']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks.index', ['filter[view]' => 'develop'])) tw-text-gray-400 @endif">@lang('Develop')</a>
+            <a href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'review']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks.index', ['filter[view]' => 'review'])) tw-text-gray-400 @endif">@lang('Review')</a>
         </div>
-        @include('tasks._my_tasks_search')
+        @include('tasks.my_tasks._search')
     </div>
     <div class="card-body">
         <table class="table table-striped">

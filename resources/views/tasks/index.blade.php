@@ -4,9 +4,17 @@
 <x-flash.alert />
 
 <div class="row mb-3">
-    <div class="col-6">
+    <div class="col-6 tw-flex">
         <x-btn.create url="{{ route('tasks.create', $projectId) }}" />
-        <x-btn.export url="{{ route('tasks.export', $projectId) }}" class="btn-outline-primary tw-ml-2"/>
+        <form action="{{ route('tasks.export', $projectId) }}">
+            <input type="hidden" name="search" value="{{ request('search') }}">
+            <input type="hidden" name="filter[view]" value="{{ request('filter')['view'] ?? '' }}">
+            <input type="hidden" name="filter[from_start_date]"
+                value="{{ request('filter')['from_start_date)'] ?? '' }}">
+            <input type="hidden" name="filter[category]" value="{{ request('filter')['category'] ?? '' }}">
+            <input type="hidden" name="filter[status]" value="{{ request('filter')['status'] ?? '' }}">
+            <x-btn.export class="btn-outline-primary tw-ml-2" />
+        </form>
     </div>
 </div>
 

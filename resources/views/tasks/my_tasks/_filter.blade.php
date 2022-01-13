@@ -23,34 +23,34 @@
         <select class="form-select tw-flex-1" name="filter[category]">
             <option value="">-- Category --</option>
             @foreach ($options['projects'] as $project)
-                <option value="" disabled style="color: white; background: #321FDB"> {{ $project->name }}</option>
-                @foreach ($options['categories'][$project->id] as $category)
-                    <option value="{{ $category->id }}"
-                        @if (
-                        isset(request('filter')['category']) &&
-                        $category->id == request('filter')['category']
-                        )
-                        selected
-                        @endif
-                        >{{ $category->name }}</option>
-                @endforeach
+            <option value="" class="text-white bg-primary" disabled> {{ $project->name }}</option>
+            @foreach ($options['categories'][$project->id] as $category)
+            <option value="{{ $category->id }}"
+                @if (
+                isset(request('filter')['category']) &&
+                $category->id == request('filter')['category']
+                )
+                selected
+                @endif
+                >{{ $category->name }}</option>
+            @endforeach
             @endforeach
         </select>
 
         <select class="form-select tw-flex-1" name="filter[status]">
             <option value="">-- Status --</option>
             @foreach ($options['projects'] as $project)
-                <option value="" disabled style="color: white; background: #321FDB"> {{ $project->name }}</option>
-                @foreach ($options['statuses'][$project->id] as $status)
-                    <option value="{{ $status->id }}"
-                        @if (
-                        isset(request('filter')['status']) &&
-                        $status->id == request('filter')['status']
-                        )
-                        selected
-                        @endif
-                        >{{ $status->status }}</option>
-                @endforeach
+            <option value="" class="text-white bg-primary" disabled> {{ $project->name }}</option>
+            @foreach ($options['statuses'][$project->id] as $status)
+            <option value="{{ $status->id }}"
+                @if (
+                isset(request('filter')['status']) &&
+                $status->id == request('filter')['status']
+                )
+                selected
+                @endif
+                >{{ $status->status }}</option>
+            @endforeach
             @endforeach
         </select>
 
