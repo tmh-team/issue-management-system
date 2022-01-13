@@ -17,6 +17,14 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'develop']) }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-task') }}"></use>
+            </svg>
+            @lang('My Tasks')
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('users.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>

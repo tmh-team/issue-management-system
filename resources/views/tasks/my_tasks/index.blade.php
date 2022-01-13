@@ -4,33 +4,38 @@
 <x-flash.alert />
 
 <div class="row mb-3">
-    <div class="col-6 tw-flex">
-        <x-btn.create url="{{ route('tasks.create', $projectId) }}" />
-        <form action="{{ route('tasks.export', $projectId) }}">
+    <div class="col-6">
+        <form action="{{ route('tasks.my_tasks.export') }}">
             <input type="hidden" name="search" value="{{ request('search') }}">
             <input type="hidden" name="filter[view]" value="{{ request('filter')['view'] ?? '' }}">
             <input type="hidden" name="filter[from_start_date]"
                 value="{{ request('filter')['from_start_date)'] ?? '' }}">
             <input type="hidden" name="filter[category]" value="{{ request('filter')['category'] ?? '' }}">
             <input type="hidden" name="filter[status]" value="{{ request('filter')['status'] ?? '' }}">
-            <x-btn.export class="btn-outline-primary tw-ml-2" />
+            <x-btn.export class="btn-primary tw-ml-2" />
         </form>
     </div>
 </div>
 
-@include('tasks._filter')
+@include('tasks.my_tasks._filter')
 
 <div class="card mt-3 mb-4">
     <div class="card-header tw-flex tw-items-center tw-justify-between">
-        @lang('Task List')
-
-        <x-input.search />
+        <div>
+            @lang('Task List')
+            <a href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'develop']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks.index', ['filter[view]' => 'develop'])) tw-text-gray-400 @endif">@lang('Develop')</a>
+            <a href="{{ route('tasks.my_tasks.index', ['filter[view]' => 'review']) }}"
+                class="tw-ml-1 @if(request()->url() . '?filter%5Bview%5D=' . request('filter')['view'] !== route('tasks.my_tasks.index', ['filter[view]' => 'review'])) tw-text-gray-400 @endif">@lang('Review')</a>
+        </div>
+        @include('tasks.my_tasks._search')
     </div>
     <div class="card-body">
         <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">@lang('Project')</th>
                     <th scope="col">@lang('Category')</th>
                     <th scope="col">@lang('Summary')</th>
                     <th scope="col">@lang('Status')</th>
@@ -43,6 +48,7 @@
                 @forelse ($tasks as $task)
                 <tr>
                     <th scope="row">{{ $task->id }}</th>
+                    <td>{{ $task->project->name }}</td>
                     <td>
                         <span class="tw-shadow tw-p-2 tw-rounded-2xl tw-text-xs"
                             data-bg-color="{{ $task->category?->color }}">
@@ -50,7 +56,7 @@
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('tasks.show', [$projectId, $task->id]) }}">
+                        <a href="{{ route('tasks.show', [$task->project_id, $task->id]) }}">
                             {{ Str::limit($task->summary, 10) }}
                         </a>
                     </td>
@@ -64,9 +70,11 @@
                     <td>{{ $task->end_date?->toDateString() }}</td>
                     <td>
                         <div class="tw-flex tw-items-center">
-                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$projectId, $task->id]) }}" />
-                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$projectId, $task->id]) }}" />
-                            <x-btn.delete url="{{ route('tasks.destroy', [$projectId, $task->id]) }}" />
+                            <x-btn.view class="tw-mr-2"
+                                url="{{ route('tasks.show', [$task->project_id, $task->id]) }}" />
+                            <x-btn.edit class="tw-mr-2"
+                                url="{{ route('tasks.edit', [$task->project_id, $task->id]) }}" />
+                            <x-btn.delete url="{{ route('tasks.destroy', [$task->project_id, $task->id]) }}" />
                         </div>
                     </td>
                 </tr>
@@ -78,7 +86,7 @@
             </tbody>
         </table>
         <div>
-            {{ $tasks->links() }}
+            {{ $tasks->withQueryString()->links() }}
         </div>
     </div>
 </div>

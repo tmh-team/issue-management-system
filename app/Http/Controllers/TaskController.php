@@ -29,20 +29,75 @@ class TaskController extends Controller
         ];
 
         $tasks = Task::with('status', 'category')
-        ->where('project_id', $project->id)
-        ->filter(request(['search', 'filter']))
-        ->sort()
-        ->paginate(config('contants.pagination_limit'));
+            ->where('project_id', $project->id)
+            ->filter(request(['search', 'filter']))
+            ->sort()
+            ->paginate(config('contants.pagination_limit'));
 
         return view('tasks.index', [
             'projectId' => $project->id,
             'tasks' => $tasks,
             'options' => [
                 'statuses' => TaskStatus::where('project_id', $project->id)->get(),
-                'categories' => TaskCategory::where('project_id', $project->id)->get()
+                'categories' => TaskCategory::where('project_id', $project->id)->get(),
             ],
             'breadcrumbs' => $breadcrumbs,
         ]);
+    }
+
+    /**
+     * Get all tasks for the specified user.
+     *
+     * @return void
+     */
+    public function myTasks()
+    {
+        [$projectIds, $statuses, $categories] = $this->getMyFilters();
+
+        $tasks = Task::with('project', 'status', 'category', 'developers', 'reviewers')
+            ->filter(request(['search', 'filter']))
+            ->sort()
+            ->paginate(config('contants.pagination_limit'));
+
+        return view('tasks.my_tasks.index', [
+            'tasks' => $tasks,
+            'options' => [
+                'projects' => Project::whereIn('id', $projectIds)->get(),
+                'statuses' => $statuses,
+                'categories' => $categories,
+            ],
+        ]);
+    }
+
+    /**
+     * Get my tasks' filter properties.
+     *
+     * @return array
+     */
+    public function getMyFilters()
+    {
+        $request = request('filter') ?? [];
+        if (!array_key_exists('view', $request)) {
+            abort('404');
+        }
+
+        $tasks = $request['view'] === 'develop'
+            ? auth()->user()->developTasks
+            : ($request['view'] === 'review' ? auth()->user()->reviewTasks : abort('404'));
+
+        $projectIds = $tasks->unique('project_id')->pluck('project_id');
+
+        $statuses = TaskStatus::with('project')
+            ->whereIn('project_id', $projectIds)
+            ->get()
+            ->groupBy(fn($item) => $item->project_id);
+
+        $categories = TaskCategory::with('project')
+            ->whereIn('project_id', $projectIds)
+            ->get()
+            ->groupBy(fn($item) => $item->project_id);
+
+        return [$projectIds, $statuses, $categories];
     }
 
     /**
@@ -188,12 +243,22 @@ class TaskController extends Controller
     }
 
     /**
-     * Export tasks info
+     * Export all tasks.
      *
      * @return void
      */
     public function export()
     {
-        return Excel::download(new TaskExport(), 'Tasks' . '.xlsx');
+        return Excel::download(new TaskExport('tasks.export'), 'Tasks' . '.xlsx');
+    }
+
+    /**
+     * Export my tasks.
+     *
+     * @return void
+     */
+    public function myTasksExport()
+    {
+        return Excel::download(new TaskExport('tasks.my_tasks.export'), 'My Tasks' . '.xlsx');
     }
 }

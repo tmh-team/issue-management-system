@@ -112,4 +112,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(Profile::class);
     }
+
+    public function developTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'task_developers', 'user_id', 'task_id');
+    }
+
+    public function reviewTasks(): BelongsToMany
+    {
+        return $this->belongsToMany(Task::class, 'task_reviewers', 'user_id', 'task_id');
+    }
 }
