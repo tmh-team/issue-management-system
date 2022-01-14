@@ -44,5 +44,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
     Route::resource('users', UserController::class);
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'show', 'destroy');
-    Route::resource('my-projects', MyProjectController::class);
+    Route::get('my-projects', [ProjectController::class, 'myProjects'])->name('my-projects');
 });

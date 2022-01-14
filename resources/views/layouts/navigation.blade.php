@@ -17,7 +17,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="{{ route('my-projects.index') }}">
+        <a class="nav-link" href="{{ route('my-projects') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-notes') }}"></use>
             </svg>

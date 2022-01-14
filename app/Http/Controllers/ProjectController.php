@@ -143,4 +143,19 @@ class ProjectController extends Controller
         return back()->with(['success' => 'A project was deleted successfully.']);
     }
 
+    public function myProjects()
+    {
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'My Projects', 'url' => route('my-projects')],
+        ];
+
+        return view('projects.my-projects', [
+            'myProjects' => auth()->user()->projects
+                ->filter()
+                ->sort(),
+            'breadcrumbs' => $breadcrumbs,
+        ]);
+    }
+
 }
