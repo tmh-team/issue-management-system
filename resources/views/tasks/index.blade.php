@@ -5,7 +5,7 @@
 
 <div class="row mb-3">
     <div class="col-6">
-        <x-btn.create url="{{ route('tasks.create', $projectId) }}" />
+        <x-btn.create url="{{ route('tasks.create', ['filter[project]' => $projectId]) }}" />
         <x-btn.export url="{{ route('tasks.export', $projectId) }}" class="tw-ml-2"/>
     </div>
 </div>
@@ -56,9 +56,9 @@
                     <td>{{ $task->end_date?->toDateString() }}</td>
                     <td>
                         <div class="tw-flex tw-items-center">
-                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$projectId, $task->id]) }}" />
-                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$projectId, $task->id]) }}" />
-                            <x-btn.delete url="{{ route('tasks.destroy', [$projectId, $task->id]) }}" />
+                            <x-btn.view class="tw-mr-2" url="{{ route('tasks.show', [$task->id, 'filter[project]' => $projectId]) }}" />
+                            <x-btn.edit class="tw-mr-2" url="{{ route('tasks.edit', [$task->id, 'filter[project]' => $projectId]) }}" />
+                            <x-btn.delete url="{{ route('tasks.destroy', [$task->id, 'filter[project]' => $projectId]) }}" />
                         </div>
                     </td>
                 </tr>

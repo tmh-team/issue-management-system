@@ -56,6 +56,11 @@ class Task extends Model
                     $query->where('id', $category);
                 });
             })
+                ->when($filter['project'] ?? false, function ($query, $project) {
+                    $query->whereHas('project', function ($query) use ($project) {
+                        $query->where('project_id', $project);
+                    });
+                })
                 ->when($filter['status'] ?? false, function ($query, $status) {
                     $query->whereHas('status', function ($query) use ($status) {
                         $query->where('id', $status);

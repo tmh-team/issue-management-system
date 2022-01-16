@@ -4,6 +4,7 @@
         <label>@lang('Start Date')</label>
 
         <input type="hidden" name="search" value="{{ request('search') }}">
+        <input type="hidden" name="filter[project]" value="{{ request('filter')['project'] }}">
 
         <input
             type="date"

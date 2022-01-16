@@ -6,7 +6,7 @@
         @lang('Edit Task')
     </div>
     <div class="card-body">
-        <form action="{{ route('tasks.update', [$projectId, $task->id]) }}" method="post">
+        <form action="{{ route('tasks.update', $task->id) }}" method="post">
             @method('PUT')
 
             @include('tasks._form', [

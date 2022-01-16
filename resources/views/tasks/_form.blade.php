@@ -1,5 +1,7 @@
 @csrf
 
+<input type="hidden" name="project_id" value="{{ request('filter')['project'] }}">
+
 <div class="mb-3">
     <label class="form-label">@lang('Summary') <span class="text-danger">*</span></label>
     <input name="summary" value="{{ $task->summary }}" class="form-control" type="text">
@@ -118,6 +120,6 @@
 
 <div class="d-flex justify-content-between">
     <button type="submit" class="btn btn-primary">{{ $submitBtnName }}</button>
-    <a href="{{ route('tasks.index', $projectId) }}" class="btn btn-outline-secondary">@lang('Back')</a>
+    <a href="{{ route('tasks.index', ['filter[project]' => $projectId]) }}" class="btn btn-outline-secondary">@lang('Back')</a>
 </div>
 </form>

@@ -19,21 +19,21 @@ class TaskController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function index(Project $project)
+    public function index()
     {
-        $breadcrumbs = [
-            ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'Projects', 'url' => route('projects.index')],
-            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
-            ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-        ];
-
         $tasks = Task::with('status', 'category')
-        ->where('project_id', $project->id)
         ->filter(request(['search', 'filter']))
         ->sort()
         ->paginate(config('contants.pagination_limit'));
 
+        $project = Project::findOrFail(request('filter')['project']);
+        $breadcrumbs = [
+            ['title' => 'Home', 'url' => route('home')],
+            ['title' => 'Projects', 'url' => route('projects.index')],
+            ['title' => $project->name, 'url' => route('projects.show', $project->id)],
+            ['title' => 'Tasks', 'url' => route('tasks.index', ['filter[project]' => $project->id])],
+        ];
+        
         return view('tasks.index', [
             'projectId' => $project->id,
             'tasks' => $tasks,
@@ -51,14 +51,15 @@ class TaskController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function create(Project $project)
+    public function create()
     {
+        $project = Project::findOrFail(request('filter')['project']);
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => $project->name, 'url' => route('projects.show', $project->id)],
-            ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-            ['title' => 'Create', 'url' => route('tasks.index', $project->id)],
+            ['title' => 'Tasks', 'url' => route('tasks.index', ['filter[project]' => $project->id])],
+            ['title' => 'Create', 'url' => route('tasks.index', ['filter[project]' => $project->id])],
         ];
 
         return view('tasks.create', [
@@ -80,8 +81,9 @@ class TaskController extends Controller
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function store(TaskStoreRequest $request, Project $project)
+    public function store(TaskStoreRequest $request)
     {
+        $project = Project::findOrFail($request->project_id);
         $request->merge([
             'project_id' => $project->id,
         ]);
@@ -91,7 +93,7 @@ class TaskController extends Controller
         $task->reviewers()->attach($request->reviewer_ids);
 
         return redirect()
-            ->route('tasks.index', $project->id)
+            ->route('tasks.index', ['filter[project]' => $project->id])
             ->with('success', 'A task has been created.');
     }
 
@@ -102,14 +104,15 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function show(Project $project, Task $task)
+    public function show(Task $task)
     {
+        $project = Project::findOrFail(request('filter')['project']);
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => $project->name, 'url' => route('projects.show', $project->id)],
-            ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-            ['title' => 'Task Detail', 'url' => route('tasks.show', [$project->id, $task->id])],
+            ['title' => 'Tasks', 'url' => route('tasks.index', ['filter[project]' => $project->id])],
+            ['title' => 'Task Detail', 'url' => route('tasks.show', ['filter[project]' => $project->id, $task->id])],
         ];
 
         return view('tasks.show', [
@@ -126,14 +129,15 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function edit(Project $project, Task $task)
+    public function edit(Task $task)
     {
+        $project = Project::findOrFail(request('filter')['project']);
         $breadcrumbs = [
             ['title' => 'Home', 'url' => route('home')],
             ['title' => 'Projects', 'url' => route('projects.index')],
             ['title' => $project->name, 'url' => route('projects.show', $project->id)],
-            ['title' => 'Tasks', 'url' => route('tasks.index', $project->id)],
-            ['title' => 'Edit', 'url' => route('tasks.show', [$project->id, $task->id])],
+            ['title' => 'Tasks', 'url' => route('tasks.index', ['filter[project]' => $project->id])],
+            ['title' => 'Edit', 'url' => route('tasks.show', ['filter[project]' => $project->id, $task->id])],
         ];
 
         return view('tasks.edit', [
@@ -156,8 +160,9 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(TaskUpdateRequest $request, Project $project, Task $task)
+    public function update(TaskUpdateRequest $request, Task $task)
     {
+        $project = Project::findOrFail($request->project_id);
         $request->merge([
             'project_id' => $project->id,
         ]);
@@ -167,7 +172,7 @@ class TaskController extends Controller
         $task->reviewers()->sync($request->reviewer_ids);
 
         return redirect()
-            ->route('tasks.index', $project->id)
+            ->route('tasks.index', ['filter[project]' => $project->id])
             ->with('success', 'A task has been updated.');
     }
 
@@ -178,12 +183,13 @@ class TaskController extends Controller
      * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project, Task $task)
+    public function destroy(Task $task)
     {
+        $project = Project::findOrFail(request('filter')['project']);
         $task->delete();
 
         return redirect()
-            ->route('tasks.index', $project->id)
+            ->route('tasks.index', ['filter[project]' => $project->id])
             ->with('success', 'A task has been deleted.');
     }
 
