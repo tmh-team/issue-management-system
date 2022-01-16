@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\LocalizationController;
-use App\Http\Controllers\MyProjectController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\TaskCategoryController;
@@ -24,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+auth()->loginUsingId(4);
+
 Route::view('/', 'welcome');
 
 Route::get('language/{locale}', LocalizationController::class);
@@ -31,8 +32,6 @@ Route::get('language/{locale}', LocalizationController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Route::view('about', 'about')->name('about')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);
@@ -44,5 +43,4 @@ Route::middleware('auth')->group(function () {
     Route::resource('projects/{project}/tasks/{task}/reviewers', TaskReviewerController::class);
     Route::resource('users', UserController::class);
     Route::resource('profile', ProfileController::class)->except('create', 'store', 'show', 'destroy');
-    Route::get('my-projects', [ProjectController::class, 'myProjects'])->name('my-projects');
 });

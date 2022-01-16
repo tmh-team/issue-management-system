@@ -17,10 +17,18 @@ class Project extends Model
      */
     protected $fillable = ['name', 'summary'];
 
-    public function scopeFilter($query)
+    public function scopeFilter($query,array $filters)
     {
-        $query->when(request('search'), function ($query) {
-            $query->where('name', 'like', '%' . request('search') . '%');
+        $query->when($filters['search'] ?? false, function ($query, $search){
+            $query->where('name', 'like', '%' . $search . '%');
+        });
+        
+        $query->when($filters['filters'] ?? false, function($query, $filters) {
+            $query->when($filters['user_id'] ?? false, function($query, $userId) {
+                $query->whereHas('users', function($query) use ($userId) {
+                    $query->where('users.id', $userId);
+                });
+            });
         });
     }
 

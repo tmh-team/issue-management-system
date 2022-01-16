@@ -25,8 +25,7 @@ class ProjectController extends Controller
         ];
 
         return view('projects.index', [
-            'projects' => Project::filter()
-                ->filter()
+            'projects' => Project::filter(request(['search', 'filters']))
                 ->sort()
                 ->paginate(config('contants.pagination_limit')),
             'breadcrumbs' => $breadcrumbs,
@@ -142,20 +141,4 @@ class ProjectController extends Controller
 
         return back()->with(['success' => 'A project was deleted successfully.']);
     }
-
-    public function myProjects()
-    {
-        $breadcrumbs = [
-            ['title' => 'Home', 'url' => route('home')],
-            ['title' => 'My Projects', 'url' => route('my-projects')],
-        ];
-
-        return view('projects.my-projects', [
-            'myProjects' => auth()->user()->projects
-                ->filter()
-                ->sort(),
-            'breadcrumbs' => $breadcrumbs,
-        ]);
-    }
-
 }
