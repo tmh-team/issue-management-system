@@ -1,5 +1,10 @@
 <div {{ $attributes->merge(['class' => 'col-lg-4 col-md-6'])}}>
     <form>
+        @if(request('filters'))
+            @foreach (request('filters') as $key => $value)
+                <input type="hidden" name="filters[{{ $key }}]" value="{{ $value }}">
+            @endforeach
+        @endif
         <div class="input-group">
             <input class="form-control" name="search" value="{{ request('search') }}" type="search" placeholder="Search...">
             <button class="btn btn-outline-secondary" type="submit">

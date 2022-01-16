@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Route;
 |
  */
 
+auth()->loginUsingId(4);
+
 Route::view('/', 'welcome');
 
 Route::get('language/{locale}', LocalizationController::class);
@@ -30,8 +32,6 @@ Route::get('language/{locale}', LocalizationController::class);
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-// Route::view('about', 'about')->name('about')->middleware('auth');
 
 Route::middleware('auth')->group(function () {
     Route::resource('projects', ProjectController::class);

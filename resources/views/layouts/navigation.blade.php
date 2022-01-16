@@ -17,6 +17,14 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link" href="{{ route('projects.index', ['filters' => ['user_id' => auth()->id() ]]) }}">
+            <svg class="nav-icon">
+                <use xlink:href="{{ asset('icons/coreui.svg#cil-notes') }}"></use>
+            </svg>
+            @lang('My Projects')
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link" href="{{ route('users.index') }}">
             <svg class="nav-icon">
                 <use xlink:href="{{ asset('icons/coreui.svg#cil-user') }}"></use>
